@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radar Passive Microwave Front-End | Dawit Yerdea</title>
+  <style>
+    :root { --border:#ddd; --muted:#555; --link:#0b57d0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 36px 18px;
+      max-width: 980px;
+      line-height: 1.45;
+    }
+    a { color: var(--link); }
+    .muted { color: var(--muted); }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+    .pillbar a {
+      display: inline-block;
+      margin-right: 10px;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      text-decoration: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    figure {
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    img { width: 100%; height: auto; border-radius: 10px; }
+    figcaption { font-size: 0.92rem; color: var(--muted); margin-top: 6px; }
+    ul { margin: 8px 0; padding-left: 18px; }
+    code { background: #f3f3f3; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html">← Back to Home</a></p>
+
+  <h1>Radar Passive Microwave Front-End</h1>
+  <p class="muted">ADS / Momentum • 2–3&nbsp;GHz Chebyshev band-pass filter (0.3&nbsp;dB ripple) • couplers • EM + layout documentation</p>
+
+  <div class="pillbar">
+    <a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Filter design (PDF)</a>
+    <a href="../docs/microwave/branchline_coupler.pdf" target="_blank" rel="noopener">Branchline coupler (PDF)</a>
+    <a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">EM revisions (PDF)</a>
+    <a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a>
+  </div>
+
+  <div class="card">
+    <h2>What this project shows</h2>
+    <ul>
+      <li><b>End-to-end microwave workflow:</b> specs → synthesis/design → EM simulation (Momentum) → layout artifacts → documentation.</li>
+      <li><b>RF hardware fundamentals:</b> S-parameters, return loss, insertion loss, Smith chart interpretation, and design iteration.</li>
+      <li><b>Deliverables:</b> design reports, EM revision log, layouts/gerbers, and measurement-style plots/data.</li>
+    </ul>
+    <p class="muted">Tip: for a job application, I recommend keeping this as one “umbrella” project and linking the individual PDFs below as artifacts.</p>
+  </div>
+
+  <div class="card">
+    <h2>Artifacts (public downloads)</h2>
+    <ul>
+      <li><a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Chebyshev Filter Design</a></li>
+      <li><a href="../docs/microwave/filter_design_ads.pdf" target="_blank" rel="noopener">Filter Design (ADS export)</a></li>
+      <li><a href="../docs/microwave/branchline_coupler.pdf" target="_blank" rel="noopener">Branchline Coupler</a></li>
+      <li><a href="../docs/microwave/coupled_line_coupler_design.pdf" target="_blank" rel="noopener">Coupled-Line Coupler Design</a></li>
+      <li><a href="../docs/microwave/coupled_line_tester.pdf" target="_blank" rel="noopener">Coupled-Line Tester</a></li>
+      <li><a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">Electromagnetic Analysis and Revisions Report</a></li>
+      <li><a href="../docs/microwave/layout_report.pdf" target="_blank" rel="noopener">Layout Report</a></li>
+      <li><a href="../docs/microwave/physical_design_and_measurements_report.pdf" target="_blank" rel="noopener">Physical Design and Measurements Report</a></li>
+      <li><a href="../docs/microwave/system_analysis_report.pdf" target="_blank" rel="noopener">System Analysis Report</a></li>
+      <li><a href="../docs/microwave/design_status_report.pdf" target="_blank" rel="noopener">Design Status Report</a></li>
+      <li><a href="../docs/microwave/passive_lab.pdf" target="_blank" rel="noopener">Passive Lab Notes</a></li>
+      <li><a href="../docs/microwave/report_1.pdf" target="_blank" rel="noopener">Report 1</a></li>
+      <li><a href="../data/microwave/q3.s2p" target="_blank" rel="noopener">Example S-parameter data (.s2p)</a></li>
+      <li><a href="../downloads/microwave/gerber_files.zip" target="_blank" rel="noopener">Gerber files (ZIP)</a></li>
+      <li><a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Figures (from my lab / simulation plots)</h2>
+    <div class="grid">
+      <figure>
+        <img src="../assets/microwave/thru_log_S11.png" alt="Thru S11 magnitude" />
+        <figcaption>Thru: |S11| (log magnitude)</figcaption>
+      </figure>
+      <figure>
+        <img src="../assets/microwave/open_smith_S11.png" alt="Open S11 Smith" />
+        <figcaption>Open: S11 on Smith chart</figcaption>
+      </figure>
+      <figure>
+        <img src="../assets/microwave/short_smith_S11.png" alt="Short S11 Smith" />
+        <figcaption>Short: S11 on Smith chart</figcaption>
+      </figure>
+      <figure>
+        <img src="../assets/microwave/power_log_S21.png" alt="Power transmission S21" />
+        <figcaption>Transmission: |S21| (log magnitude)</figcaption>
+      </figure>
+    </div>
+    <p class="muted">You can replace or add figures by uploading new PNGs to <code>assets/microwave/</code> and linking them here.</p>
+  </div>
+
+  <div class="card">
+    <h2>How to improve this page for job applications (quick wins)</h2>
+    <ul>
+      <li>Add 3 numbers at the top: passband insertion loss, return loss, and out-of-band rejection (even approximate).</li>
+      <li>Include one “design table”: substrate, line widths, key lengths, ripple/order, and frequency range.</li>
+      <li>Add one short paragraph: what changed after EM simulation (what you revised and why).</li>
+    </ul>
+  </div>
+</body>
+</html>
