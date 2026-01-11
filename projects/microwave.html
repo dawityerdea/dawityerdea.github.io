@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radar Passive Microwave Front-End | Dawit Yerdea</title>
-
   <style>
     :root { --border:#ddd; --muted:#555; --link:#0b57d0; }
     body {
@@ -22,18 +21,25 @@
       padding: 16px;
       margin: 14px 0;
     }
-    .pillbar a {
+    .pillbar { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .pillbar a, .pillbar button {
       display: inline-block;
-      margin-right: 10px;
-      margin-top: 8px;
       padding: 10px 12px;
       border: 1px solid #ccc;
       border-radius: 999px;
       text-decoration: none;
+      background: #fff;
+      cursor: pointer;
+      font: inherit;
     }
+    .pillbar button.active {
+      border-color: var(--link);
+      box-shadow: 0 0 0 3px rgba(11,87,208,0.12);
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 12px;
       margin-top: 12px;
     }
@@ -42,48 +48,57 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 10px;
+      background: #fff;
     }
-    img { width: 100%; height: auto; border-radius: 10px; }
+    img { width: 100%; height: auto; border-radius: 10px; display:block; }
     figcaption { font-size: 0.92rem; color: var(--muted); margin-top: 6px; }
-    ul { margin: 8px 0; padding-left: 18px; }
-    code { background: #f3f3f3; padding: 2px 6px; border-radius: 6px; }
 
-    /* --- Photo gallery (folder view) --- */
-    .gallery-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      z-index: 9999;
     }
-    .gallery-tabs button{
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 999px;
-      background: white;
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      max-width: 1100px;
+      width: 100%;
+      background: #111;
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .lightbox-top {
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 6px 6px 10px 6px;
+      color: #eee;
+      font-size: 0.95rem;
+    }
+    .lightbox-top a { color: #cfe0ff; }
+    .lightbox-close {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #eee;
+      border-radius: 10px;
+      padding: 8px 10px;
       cursor: pointer;
-      font: inherit;
     }
-    .gallery-tabs button.active{
-      border-color: #0b57d0;
-      box-shadow: 0 0 0 2px rgba(11,87,208,0.15);
-    }
-    .gallery-grid figure{
-      padding: 0;
-      overflow: hidden;
-    }
-    .gallery-grid img{
-      height: 190px;
-      object-fit: cover;
-      border-radius: 0;
+    .lightbox-img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
       display:block;
-    }
-    .gallery-grid figcaption{
-      padding: 10px;
-      margin: 0;
     }
   </style>
 </head>
-
 <body>
   <p><a href="../index.html">← Back to Home</a></p>
 
@@ -128,149 +143,22 @@
     </ul>
   </div>
 
-  <!-- ===================== NEW: PHOTO GALLERY CARD ===================== -->
-  <div class="card">
+  <!-- ✅ THIS IS WHERE YOUR SUBFOLDERS SHOW UP (GALLERY VIEW) -->
+  <div class="card" id="build-photos">
     <h2>Build Photos (organized folders)</h2>
-    <p class="muted">Albums are organized by measurement, PCB results (final vs scrapped), and fabrication process screenshots.</p>
+    <p class="muted">
+      Albums are organized by measurement, PCB results (final vs scrapped), and fabrication process screenshots.
+      Click an album, then click any photo to enlarge.
+    </p>
 
-    <div class="gallery-tabs" id="radarGalleryTabs"></div>
-    <div class="grid gallery-grid" id="radarGalleryGrid"></div>
+    <div id="albumBar" class="pillbar"></div>
+    <div id="gallery" class="grid"></div>
 
-    <p class="muted" style="margin-top:10px;">
-      Make sure you copied the folder into:
-      <code>assets/microwave/Radar_Passive_Microwave_FrontEnd_Photos/</code>
-      (relative to the repo root), otherwise images will not load.
+    <p class="muted">
+      If images don’t load: the most common cause is a wrong path.
+      This page is in <code>/projects/</code>, so photos in the repo root must be referenced with <code>../</code>.
     </p>
   </div>
-
-  <script>
-    // IMPORTANT:
-    // Place your organized folder at:
-    //   assets/microwave/Radar_Passive_Microwave_FrontEnd_Photos/...
-    // Since this page is in /projects/, we use ../assets/...
-    const BASE = "../assets/microwave/Radar_Passive_Microwave_FrontEnd_Photos/";
-
-    const ALBUMS = [
-      {
-        id: "vna",
-        title: "01) VNA Measurements",
-        folder: "01_VNA_Measurements",
-        images: [
-          "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg",
-          "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg",
-          "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg",
-          "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg",
-        ],
-      },
-      {
-        id: "pcb_final",
-        title: "02a) PCB Boards — Final Working",
-        folder: "02_PCB_Boards/02a_Final_Working",
-        images: [
-          "11339D8C-2923-4039-A951-13769A667E05.jpeg",
-          "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg",
-          "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg",
-          "9116F78C-4A00-4654-8F29-562FF3402598.jpeg",
-          "91A7658C-B16E-486B-B343-598AA711B201.jpeg",
-        ],
-      },
-      {
-        id: "pcb_scrap",
-        title: "02b) PCB Boards — Scrapped (Lessons Learned)",
-        folder: "02_PCB_Boards/02b_Scrapped_Lessons_Learned",
-        images: [
-          "0732928E-8999-4256-9E74-5D0416549D8C.jpeg",
-          "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg",
-          "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg",
-        ],
-      },
-      {
-        id: "materials",
-        title: "02c) Materials & Parts",
-        folder: "02_PCB_Boards/02c_Materials_and_Parts",
-        images: [
-          "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg",
-        ],
-      },
-      {
-        id: "milling",
-        title: "03a) Milling Machine",
-        folder: "03_Fabrication_Process/03a_Milling_Machine",
-        images: [
-          "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg",
-          "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg",
-        ],
-      },
-      {
-        id: "screencaps",
-        title: "03b) Software Screen Captures",
-        folder: "03_Fabrication_Process/03b_Software_Screencaps",
-        images: [
-          "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg",
-          "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg",
-          "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg",
-          "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg",
-          "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg",
-          "EA498C68-0D11-4208-A011-5F587D00F028.jpeg",
-          "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg",
-        ],
-      },
-      {
-        id: "post",
-        title: "03c) Post-Processing",
-        folder: "03_Fabrication_Process/03c_Post_Processing",
-        images: [
-          "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg",
-        ],
-      },
-      {
-        id: "unsorted",
-        title: "Extra) Unsorted",
-        folder: "02_PCB_Boards/Unsorted",
-        images: [
-          "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg",
-          "76447B38-1E8D-494A-A4D5-135522C61368.jpeg",
-        ],
-      },
-    ];
-
-    const tabsEl = document.getElementById("radarGalleryTabs");
-    const gridEl = document.getElementById("radarGalleryGrid");
-
-    function renderAlbum(album) {
-      // highlight active tab
-      [...tabsEl.querySelectorAll("button")]
-        .forEach(b => b.classList.toggle("active", b.dataset.id === album.id));
-
-      // render images
-      gridEl.innerHTML = "";
-      for (const file of album.images) {
-        const src = BASE + album.folder + "/" + file;
-
-        const fig = document.createElement("figure");
-        fig.innerHTML = `
-          <a href="${src}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
-            <img src="${src}" alt="${album.title}">
-            <figcaption>${album.title}</figcaption>
-          </a>
-        `;
-        gridEl.appendChild(fig);
-      }
-    }
-
-    // build tabs
-    for (const album of ALBUMS) {
-      const btn = document.createElement("button");
-      btn.textContent = album.title;
-      btn.dataset.id = album.id;
-      btn.onclick = () => renderAlbum(album);
-      tabsEl.appendChild(btn);
-    }
-
-    // default
-    renderAlbum(ALBUMS[0]);
-  </script>
-  <!-- ===================== END NEW GALLERY ===================== -->
 
   <div class="card">
     <h2>Figures (from my lab / simulation plots)</h2>
@@ -303,5 +191,185 @@
       <li>Add one short paragraph: what changed after EM simulation (what you revised and why).</li>
     </ul>
   </div>
+
+  <!-- Lightbox modal -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <div class="lightbox-top">
+        <div id="lightboxCaption">Photo</div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a id="lightboxOpen" href="#" target="_blank" rel="noopener">Open original</a>
+          <button id="lightboxClose" class="lightbox-close" type="button">Close</button>
+        </div>
+      </div>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged view" />
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      // BASE is the #1 reason images break.
+      // - If this file is in /projects/ and photos are at repo root => BASE must be "../"
+      // - If you move photos under assets/radar_frontend/photos/ => set BASE to "../assets/radar_frontend/photos/"
+      const BASE = "../";  // ✅ matches your current setup (folders at repo root, page in /projects/)
+
+      // Albums: update folder names here if you renamed anything.
+      const albums = [
+        {
+          id: "vna",
+          title: "01) VNA Measurements",
+          folder: "01_VNA_Measurements",
+          images: [
+            "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg",
+            "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg",
+            "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg",
+            "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg"
+          ]
+        },
+        {
+          id: "final",
+          title: "02a) PCB Boards — Final Working",
+          folder: "02a_Final_Working",
+          images: [
+            "11339D8C-2923-4039-A951-13769A667E05.jpeg",
+            "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg",
+            "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg",
+            "9116F78C-4A00-4654-8F29-562FF3402598.jpeg",
+            "91A7658C-B16E-486B-B343-598AA711B201.jpeg"
+          ]
+        },
+        {
+          id: "scrap",
+          title: "02b) PCB Boards — Scrapped (Lessons Learned)",
+          folder: "02b_Scrapped_Lessons_Learned",
+          images: [
+            "0732928E-8999-4256-9E74-5D0416549D8C.jpeg",
+            "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg",
+            "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg"
+          ]
+        },
+        {
+          id: "parts",
+          title: "02c) Materials & Parts",
+          folder: "02c_Materials_and_Parts",
+          images: [
+            "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg"
+          ]
+        },
+        {
+          id: "mill",
+          title: "03a) Milling Machine",
+          folder: "03a_Milling_Machine",
+          images: [
+            "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg",
+            "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg"
+          ]
+        },
+        {
+          id: "screencaps",
+          title: "03b) Software Screen Captures",
+          folder: "03b_Software_Screencaps",
+          images: [
+            "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg",
+            "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg",
+            "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg",
+            "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg",
+            "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg",
+            "EA498C68-0D11-4208-A011-5F587D00F028.jpeg",
+            "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg"
+          ]
+        },
+        {
+          id: "post",
+          title: "03c) Post-Processing",
+          folder: "03c_Post_Processing",
+          images: [
+            "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg"
+          ]
+        },
+        {
+          id: "extra",
+          title: "Extra) Unsorted",
+          folder: "Unsorted",
+          images: [
+            "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg",
+            "76447B38-1E8D-494A-A4D5-135522C61368.jpeg"
+          ]
+        }
+      ];
+
+      const albumBar = document.getElementById("albumBar");
+      const gallery = document.getElementById("gallery");
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const lightboxCaption = document.getElementById("lightboxCaption");
+      const lightboxOpen = document.getElementById("lightboxOpen");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      function openLightbox(src, caption) {
+        lightboxImg.src = src;
+        lightboxCaption.textContent = caption;
+        lightboxOpen.href = src;
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImg.src = "";
+      }
+
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+
+      function renderAlbum(albumId) {
+        const album = albums.find(a => a.id === albumId) || albums[0];
+        gallery.innerHTML = "";
+
+        album.images.forEach((file, idx) => {
+          const src = `${BASE}${album.folder}/${file}`;
+          const caption = `${album.title} • ${idx + 1}/${album.images.length}`;
+
+          const fig = document.createElement("figure");
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = caption;
+          img.loading = "lazy";
+          img.addEventListener("click", () => openLightbox(src, caption));
+          img.onerror = () => {
+            // Helps you debug broken paths quickly (check DevTools Console)
+            console.warn("Image failed to load:", src);
+          };
+
+          const cap = document.createElement("figcaption");
+          cap.textContent = album.title;
+
+          fig.appendChild(img);
+          fig.appendChild(cap);
+          gallery.appendChild(fig);
+        });
+
+        [...albumBar.querySelectorAll("button")].forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.album === album.id);
+        });
+      }
+
+      // Build album buttons
+      albums.forEach((a, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = a.title;
+        btn.dataset.album = a.id;
+        btn.addEventListener("click", () => renderAlbum(a.id));
+        albumBar.appendChild(btn);
+        if (i === 0) btn.classList.add("active");
+      });
+
+      renderAlbum(albums[0].id);
+    })();
+  </script>
 </body>
 </html>
