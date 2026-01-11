@@ -318,188 +318,221 @@
       </div>
     </div>
 
-    <!-- Build Photos / Album Gallery -->
-    <div class="card" id="build-photos">
-      <h2>Build Photos (organized albums)</h2>
-      <p class="muted">Albums are grouped by measurement evidence, PCB results (final vs scrapped), and fabrication workflow. Click any photo to enlarge.</p>
+<!-- ===================== BUILD PHOTOS (ORGANIZED ALBUMS) ===================== -->
+<div class="card">
+  <h2>Build Photos (organized albums)</h2>
+  <p class="muted">
+    Photos are grouped by measurement evidence, PCB results (final vs scrapped), and fabrication workflow.
+    Click any photo to enlarge.
+  </p>
 
-      <div id="albumBar" class="pillbar" aria-label="Album selector"></div>
-      <div id="gallery" class="galleryGrid" aria-label="Photo gallery grid"></div>
-    </div>
+  <style>
+    /* Gallery UI */
+    .albumBar { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 14px; }
+    .albumBtn{
+      border:1px solid #d5d5d5; background:#fff; border-radius:999px;
+      padding:10px 14px; cursor:pointer; font:inherit;
+    }
+    .albumBtn[aria-pressed="true"]{ outline:2px solid #6ea8ff; border-color:#6ea8ff; }
+    .albumMeta { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin:4px 0 10px; }
+    .albumTitle { font-weight:650; }
+    .albumHint { color:#666; font-size:.92rem; }
+    .photoGrid{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:12px; margin-top:10px;
+    }
+    .photoCard{
+      border:1px solid #ddd; border-radius:14px; overflow:hidden; background:#fff;
+    }
+    .photoCard img{
+      width:100%; height:220px; object-fit:cover; display:block;
+      background:#f3f3f3;
+    }
+    .photoCap{ padding:10px 12px; color:#555; font-size:.92rem; }
+    /* Lightbox */
+    .lb{
+      position:fixed; inset:0; background:rgba(0,0,0,.72);
+      display:none; align-items:center; justify-content:center; padding:18px; z-index:9999;
+    }
+    .lb.open{ display:flex; }
+    .lbInner{ max-width:1100px; width:100%; }
+    .lbImg{
+      width:100%; max-height:82vh; object-fit:contain; border-radius:14px; background:#111;
+      display:block;
+    }
+    .lbRow{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      color:#eee; margin-top:10px; flex-wrap:wrap;
+    }
+    .lbCap{ color:#ddd; font-size:.95rem; }
+    .lbClose{
+      border:1px solid rgba(255,255,255,.35); background:transparent; color:#fff;
+      border-radius:999px; padding:8px 12px; cursor:pointer; font:inherit;
+    }
+  </style>
 
-    <!-- Lightbox modal -->
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-      <div class="lightbox-inner">
-        <div class="lightbox-top">
-          <div id="lightboxCaption">Photo</div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <a id="lightboxOpen" href="#" target="_blank" rel="noopener">Open original</a>
-            <button id="lightboxClose" class="lightbox-close" type="button">Close</button>
-          </div>
-        </div>
-        <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged view" />
+  <div class="albumBar" id="albumBar"></div>
+
+  <div class="albumMeta">
+    <div class="albumTitle" id="albumTitle">Album</div>
+    <div class="albumHint" id="albumHint">Tip: Click an image to enlarge.</div>
+  </div>
+
+  <div class="photoGrid" id="photoGrid"></div>
+
+  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="lbInner">
+      <img class="lbImg" id="lbImg" alt="">
+      <div class="lbRow">
+        <div class="lbCap" id="lbCap"></div>
+        <button class="lbClose" id="lbClose" type="button">Close</button>
       </div>
     </div>
-
-    <script>
-      (() => {
-        // If this page is at /projects/... and your photo folders are at the repo root, keep BASE="../"
-        // If you move photos under assets/radar_frontend/photos/, set BASE="../assets/radar_frontend/photos/"
-        const BASE = "../";
-
-        const albums = [
-          {
-            id: "final",
-            title: "02a) PCB Boards — Final Working",
-            folder: "02a_Final_Working",
-            items: [
-              { file: "11339D8C-2923-4039-A951-13769A667E05.jpeg", caption: "Final working board (overview)" },
-              { file: "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg", caption: "Final working board (build angle)" },
-              { file: "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg", caption: "Final working board (assembled pieces)" },
-              { file: "9116F78C-4A00-4654-8F29-562FF3402598.jpeg", caption: "Final working board (close-up)" },
-              { file: "91A7658C-B16E-486B-B343-598AA711B201.jpeg", caption: "Final working board (layout/features)" }
-            ]
-          },
-          {
-            id: "scrap",
-            title: "02b) PCB Boards — Scrapped (Lessons Learned)",
-            folder: "02b_Scrapped_Lessons_Learned",
-            items: [
-              { file: "0732928E-8999-4256-9E74-5D0416549D8C.jpeg", caption: "Scrapped board (manufacturing issue)" },
-              { file: "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg", caption: "Scrapped board (trace/edge quality)" },
-              { file: "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg", caption: "Scrapped board (process outcome)" }
-            ]
-          },
-          {
-            id: "vna",
-            title: "01) VNA Measurements",
-            folder: "01_VNA_Measurements",
-            items: [
-              { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "VNA measurement evidence (screen photo)" },
-              { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "VNA measurement evidence (screen photo)" },
-              { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", caption: "VNA measurement evidence (screen photo)" },
-              { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", caption: "VNA measurement evidence (screen photo)" }
-            ]
-          },
-          {
-            id: "screencaps",
-            title: "03b) Software Screen Captures",
-            folder: "03b_Software_Screencaps",
-            items: [
-              { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "LPKF / CAM workflow (screen capture)" },
-              { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Gerber import / setup (screen capture)" },
-              { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Import options / layer mapping (screen capture)" },
-              { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", caption: "Toolpath preview (screen capture)" },
-              { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Layout/copper preview (screen capture)" },
-              { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Selection / alignment view (screen capture)" },
-              { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "CAM view / layer setup (screen capture)" }
-            ]
-          },
-          {
-            id: "mill",
-            title: "03a) Milling Machine",
-            folder: "03a_Milling_Machine",
-            items: [
-              { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
-              { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine/process photo" }
-            ]
-          },
-          {
-            id: "post",
-            title: "03c) Post-Processing",
-            folder: "03c_Post_Processing",
-            items: [
-              { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing result / cleanup" }
-            ]
-          },
-          {
-            id: "parts",
-            title: "02c) Materials & Parts",
-            folder: "02c_Materials_and_Parts",
-            items: [
-              { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Copper-clad material + RF connectors" }
-            ]
-          },
-          {
-            id: "extra",
-            title: "Extra) Unsorted",
-            folder: "Unsorted",
-            items: [
-              { file: "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg", caption: "Unsorted build photo" },
-              { file: "76447B38-1E8D-494A-A4D5-135522C61368.jpeg", caption: "Unsorted build photo" }
-            ]
-          }
-        ];
-
-        const albumBar = document.getElementById("albumBar");
-        const gallery = document.getElementById("gallery");
-
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightboxImg");
-        const lightboxCaption = document.getElementById("lightboxCaption");
-        const lightboxOpen = document.getElementById("lightboxOpen");
-        const lightboxClose = document.getElementById("lightboxClose");
-
-        function openLightbox(src, caption) {
-          lightboxImg.src = src;
-          lightboxCaption.textContent = caption;
-          lightboxOpen.href = src;
-          lightbox.classList.add("open");
-          lightbox.setAttribute("aria-hidden", "false");
-        }
-
-        function closeLightbox() {
-          lightbox.classList.remove("open");
-          lightbox.setAttribute("aria-hidden", "true");
-          lightboxImg.src = "";
-        }
-
-        lightboxClose.addEventListener("click", closeLightbox);
-        lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
-        document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
-
-        function renderAlbum(albumId) {
-          const album = albums.find(a => a.id === albumId) || albums[0];
-          gallery.innerHTML = "";
-
-          album.items.forEach((it) => {
-            const src = `${BASE}${album.folder}/${it.file}`;
-
-            const fig = document.createElement("figure");
-
-            const img = document.createElement("img");
-            img.src = src;
-            img.alt = it.caption;
-            img.loading = "lazy";
-            img.addEventListener("click", () => openLightbox(src, it.caption));
-
-            const cap = document.createElement("figcaption");
-            cap.textContent = it.caption;
-
-            fig.appendChild(img);
-            fig.appendChild(cap);
-            gallery.appendChild(fig);
-          });
-
-          [...albumBar.querySelectorAll("button")].forEach(btn => {
-            btn.classList.toggle("active", btn.dataset.album === album.id);
-          });
-        }
-
-        // Album buttons
-        albums.forEach((a) => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.dataset.album = a.id;
-          btn.textContent = `${a.title} (${a.items.length})`;
-          btn.addEventListener("click", () => renderAlbum(a.id));
-          albumBar.appendChild(btn);
-        });
-
-        // Default to strongest story: final working boards first
-        renderAlbum("final");
-      })();
-    </script>
   </div>
-</body>
-</html>
+
+  <script>
+    // Always build correct URL regardless of where this page is (projects/ vs root)
+    function U(absPathFromSiteRoot){
+      return new URL(absPathFromSiteRoot.replace(/^\/+/, '/'), window.location.origin).href;
+    }
+
+    // ====== Albums (MATCHES YOUR REAL FOLDERS + .jpeg EXTENSIONS) ======
+    const ALBUMS = [
+      {
+        id: "final",
+        label: "02a) PCB Boards — Final Working",
+        items: [
+          { src: U("/02_PCB_Boards/02a_Final_Working/11339D8C-2923-4039-A951-13769A667E05.jpeg"), cap:"Final board / assembled view" },
+          { src: U("/02_PCB_Boards/02a_Final_Working/2B4C02B3-8314-4DB1-B746-27919C620702.jpeg"), cap:"Final board close-up" },
+          { src: U("/02_PCB_Boards/02a_Final_Working/3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg"), cap:"Final board + connectors" },
+          { src: U("/02_PCB_Boards/02a_Final_Working/9116F78C-4A00-4654-8F29-562FF3402598.jpeg"), cap:"Final board (top view)" },
+          { src: U("/02_PCB_Boards/02a_Final_Working/91A7658C-B16E-486B-B343-598AA711B201.jpeg"), cap:"Final board (alternate angle)" }
+        ]
+      },
+      {
+        id: "scrap",
+        label: "02b) PCB Boards — Scrapped (Lessons Learned)",
+        items: [
+          { src: U("/02_PCB_Boards/02b_Scrapped_Lessons_Learned/0732928E-8999-4256-9E74-5D0416549D8C.jpeg"), cap:"Scrapped attempt (routing / cut issues)" },
+          { src: U("/02_PCB_Boards/02b_Scrapped_Lessons_Learned/B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg"), cap:"Scrapped attempt (trace damage / peel)" },
+          { src: U("/02_PCB_Boards/02b_Scrapped_Lessons_Learned/B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg"), cap:"Scrapped attempt (alignment / milling errors)" }
+        ]
+      },
+      {
+        id: "vna",
+        label: "01) VNA Measurements",
+        items: [
+          { src: U("/01_VNA_Measurements/54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg"), cap:"VNA / measurement screenshot" },
+          { src: U("/01_VNA_Measurements/7F101599-926C-4071-9A1A-2B16C39DD914.jpeg"), cap:"VNA / calibration or result screen" },
+          { src: U("/01_VNA_Measurements/BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg"), cap:"VNA plot (S-parameters)" },
+          { src: U("/01_VNA_Measurements/C6882560-7ACD-4418-8104-4A162B1319CC.jpeg"), cap:"VNA / setup or result view" }
+        ]
+      },
+      {
+        id: "screencaps",
+        label: "03b) Software Screen Captures",
+        items: [
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg"), cap:"LPKF / CAM workflow (screen capture)" },
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg"), cap:"CAM preview / toolpath view" },
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg"), cap:"Import / layer mapping screen" },
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg"), cap:"Toolpath / machining preview" },
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg"), cap:"Layout / alignment view" },
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/EA498C68-0D11-4208-A011-5F587D00F028.jpeg"), cap:"Gerber import / board outline check" },
+          { src: U("/03_Fabrication_Process/03b_Software_Screencaps/F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg"), cap:"Routing view / close-up" }
+        ]
+      },
+      {
+        id: "milling",
+        label: "03a) Milling Machine",
+        items: [
+          { src: U("/03_Fabrication_Process/03a_Milling_Machine/B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg"), cap:"Milling machine setup / workstation" },
+          { src: U("/03_Fabrication_Process/03a_Milling_Machine/C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg"), cap:"Machine / process photo" }
+        ]
+      },
+      {
+        id: "post",
+        label: "03c) Post-Processing",
+        items: [
+          { src: U("/03_Fabrication_Process/03c_Post_Processing/73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg"), cap:"Post-processing / cleanup after milling" }
+        ]
+      },
+      {
+        id: "parts",
+        label: "02c) Materials & Parts",
+        items: [
+          { src: U("/02_PCB_Boards/02c_Materials_and_Parts/0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg"), cap:"Copper clad + SMA parts" }
+        ]
+      },
+      {
+        id: "unsorted",
+        label: "Extra) Unsorted",
+        items: [
+          { src: U("/02_PCB_Boards/Unsorted/20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg"), cap:"Unsorted build photo" },
+          { src: U("/02_PCB_Boards/Unsorted/76447B38-1E8D-494A-A4D5-135522C61368.jpeg"), cap:"Unsorted build photo" }
+        ]
+      }
+    ];
+
+    // ====== Render UI ======
+    const albumBar  = document.getElementById("albumBar");
+    const photoGrid = document.getElementById("photoGrid");
+    const albumTitle = document.getElementById("albumTitle");
+
+    const lb = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbCap = document.getElementById("lbCap");
+    const lbClose = document.getElementById("lbClose");
+
+    function setAlbum(id){
+      const a = ALBUMS.find(x => x.id === id) || ALBUMS[0];
+      albumTitle.textContent = a.label + " (" + a.items.length + ")";
+      // buttons state
+      [...albumBar.querySelectorAll("button")].forEach(b => {
+        b.setAttribute("aria-pressed", b.dataset.album === a.id ? "true" : "false");
+      });
+      // grid
+      photoGrid.innerHTML = "";
+      a.items.forEach((it) => {
+        const fig = document.createElement("div");
+        fig.className = "photoCard";
+        fig.innerHTML = `
+          <img src="${it.src}" alt="${it.cap}">
+          <div class="photoCap">${it.cap}</div>
+        `;
+        fig.querySelector("img").addEventListener("click", () => openLB(it));
+        photoGrid.appendChild(fig);
+      });
+    }
+
+    function openLB(it){
+      lbImg.src = it.src;
+      lbImg.alt = it.cap;
+      lbCap.textContent = it.cap;
+      lb.classList.add("open");
+    }
+    function closeLB(){
+      lb.classList.remove("open");
+      lbImg.src = "";
+    }
+
+    lbClose.addEventListener("click", closeLB);
+    lb.addEventListener("click", (e) => { if(e.target === lb) closeLB(); });
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeLB(); });
+
+    // Build album buttons
+    ALBUMS.forEach((a, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "albumBtn";
+      btn.dataset.album = a.id;
+      btn.setAttribute("aria-pressed", idx === 0 ? "true" : "false");
+      btn.textContent = `${a.label} (${a.items.length})`;
+      btn.addEventListener("click", () => setAlbum(a.id));
+      albumBar.appendChild(btn);
+    });
+
+    // default album
+    setAlbum(ALBUMS[0].id);
+  </script>
+</div>
+<!-- =================== END BUILD PHOTOS (ORGANIZED ALBUMS) =================== -->
