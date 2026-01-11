@@ -343,15 +343,15 @@
 
     <script>
       (() => {
-        // If this page is at /projects/... and your photo folders are at the repo root, keep BASE="../"
-        // If you move photos under assets/radar_frontend/photos/, set BASE="../assets/radar_frontend/photos/"
-        const BASE = "../";
+        // This page is inside /projects/, while your image folders are at the repo root.
+        // So the correct base is "../" (go up from /projects/ to repo root).
+        const BASE = new URL("../", document.baseURI); // robust absolute base URL
 
         const albums = [
           {
             id: "final",
             title: "02a) PCB Boards — Final Working",
-            folder: "02a_Final_Working",
+            folder: "PCB_Boards/02a_Final_Working",
             items: [
               { file: "11339D8C-2923-4039-A951-13769A667E05.jpeg", caption: "Final working board (overview)" },
               { file: "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg", caption: "Final working board (build angle)" },
@@ -363,7 +363,7 @@
           {
             id: "scrap",
             title: "02b) PCB Boards — Scrapped (Lessons Learned)",
-            folder: "02b_Scrapped_Lessons_Learned",
+            folder: "PCB_Boards/02b_Scrapped_Lessons_Learned",
             items: [
               { file: "0732928E-8999-4256-9E74-5D0416549D8C.jpeg", caption: "Scrapped board (manufacturing issue)" },
               { file: "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg", caption: "Scrapped board (trace/edge quality)" },
@@ -373,7 +373,7 @@
           {
             id: "vna",
             title: "01) VNA Measurements",
-            folder: "01_VNA_Measurements",
+            folder: "VNA_Measurements",
             items: [
               { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "VNA measurement evidence (screen photo)" },
               { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "VNA measurement evidence (screen photo)" },
@@ -382,9 +382,18 @@
             ]
           },
           {
+            id: "mill",
+            title: "03a) Milling Machine",
+            folder: "Fabrication_Process/03a_Milling_Machine",
+            items: [
+              { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
+              { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine/process photo" }
+            ]
+          },
+          {
             id: "screencaps",
             title: "03b) Software Screen Captures",
-            folder: "03b_Software_Screencaps",
+            folder: "Fabrication_Process/03b_Software_Screencaps",
             items: [
               { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "LPKF / CAM workflow (screen capture)" },
               { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Gerber import / setup (screen capture)" },
@@ -396,18 +405,9 @@
             ]
           },
           {
-            id: "mill",
-            title: "03a) Milling Machine",
-            folder: "03a_Milling_Machine",
-            items: [
-              { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
-              { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine/process photo" }
-            ]
-          },
-          {
             id: "post",
             title: "03c) Post-Processing",
-            folder: "03c_Post_Processing",
+            folder: "Fabrication_Process/03c_Post_Processing",
             items: [
               { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing result / cleanup" }
             ]
@@ -415,7 +415,7 @@
           {
             id: "parts",
             title: "02c) Materials & Parts",
-            folder: "02c_Materials_and_Parts",
+            folder: "PCB_Boards/02c_Materials_and_Parts",
             items: [
               { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Copper-clad material + RF connectors" }
             ]
@@ -458,12 +458,16 @@
         lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
 
+        function buildSrc(albumFolder, file) {
+          return new URL(`${albumFolder}/${file}`, BASE).href;
+        }
+
         function renderAlbum(albumId) {
           const album = albums.find(a => a.id === albumId) || albums[0];
           gallery.innerHTML = "";
 
           album.items.forEach((it) => {
-            const src = `${BASE}${album.folder}/${it.file}`;
+            const src = buildSrc(album.folder, it.file);
 
             const fig = document.createElement("figure");
 
@@ -496,7 +500,6 @@
           albumBar.appendChild(btn);
         });
 
-        // Default to strongest story: final working boards first
         renderAlbum("final");
       })();
     </script>
