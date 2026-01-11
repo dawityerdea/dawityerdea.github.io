@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radar Passive Microwave Front-End | Dawit Yerdea</title>
+
   <style>
     :root { --border:#ddd; --muted:#555; --link:#0b57d0; }
     body {
@@ -46,8 +47,43 @@
     figcaption { font-size: 0.92rem; color: var(--muted); margin-top: 6px; }
     ul { margin: 8px 0; padding-left: 18px; }
     code { background: #f3f3f3; padding: 2px 6px; border-radius: 6px; }
+
+    /* --- Photo gallery (folder view) --- */
+    .gallery-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .gallery-tabs button{
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      background: white;
+      cursor: pointer;
+      font: inherit;
+    }
+    .gallery-tabs button.active{
+      border-color: #0b57d0;
+      box-shadow: 0 0 0 2px rgba(11,87,208,0.15);
+    }
+    .gallery-grid figure{
+      padding: 0;
+      overflow: hidden;
+    }
+    .gallery-grid img{
+      height: 190px;
+      object-fit: cover;
+      border-radius: 0;
+      display:block;
+    }
+    .gallery-grid figcaption{
+      padding: 10px;
+      margin: 0;
+    }
   </style>
 </head>
+
 <body>
   <p><a href="../index.html">← Back to Home</a></p>
 
@@ -91,6 +127,150 @@
       <li><a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a></li>
     </ul>
   </div>
+
+  <!-- ===================== NEW: PHOTO GALLERY CARD ===================== -->
+  <div class="card">
+    <h2>Build Photos (organized folders)</h2>
+    <p class="muted">Albums are organized by measurement, PCB results (final vs scrapped), and fabrication process screenshots.</p>
+
+    <div class="gallery-tabs" id="radarGalleryTabs"></div>
+    <div class="grid gallery-grid" id="radarGalleryGrid"></div>
+
+    <p class="muted" style="margin-top:10px;">
+      Make sure you copied the folder into:
+      <code>assets/microwave/Radar_Passive_Microwave_FrontEnd_Photos/</code>
+      (relative to the repo root), otherwise images will not load.
+    </p>
+  </div>
+
+  <script>
+    // IMPORTANT:
+    // Place your organized folder at:
+    //   assets/microwave/Radar_Passive_Microwave_FrontEnd_Photos/...
+    // Since this page is in /projects/, we use ../assets/...
+    const BASE = "../assets/microwave/Radar_Passive_Microwave_FrontEnd_Photos/";
+
+    const ALBUMS = [
+      {
+        id: "vna",
+        title: "01) VNA Measurements",
+        folder: "01_VNA_Measurements",
+        images: [
+          "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg",
+          "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg",
+          "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg",
+          "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg",
+        ],
+      },
+      {
+        id: "pcb_final",
+        title: "02a) PCB Boards — Final Working",
+        folder: "02_PCB_Boards/02a_Final_Working",
+        images: [
+          "11339D8C-2923-4039-A951-13769A667E05.jpeg",
+          "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg",
+          "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg",
+          "9116F78C-4A00-4654-8F29-562FF3402598.jpeg",
+          "91A7658C-B16E-486B-B343-598AA711B201.jpeg",
+        ],
+      },
+      {
+        id: "pcb_scrap",
+        title: "02b) PCB Boards — Scrapped (Lessons Learned)",
+        folder: "02_PCB_Boards/02b_Scrapped_Lessons_Learned",
+        images: [
+          "0732928E-8999-4256-9E74-5D0416549D8C.jpeg",
+          "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg",
+          "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg",
+        ],
+      },
+      {
+        id: "materials",
+        title: "02c) Materials & Parts",
+        folder: "02_PCB_Boards/02c_Materials_and_Parts",
+        images: [
+          "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg",
+        ],
+      },
+      {
+        id: "milling",
+        title: "03a) Milling Machine",
+        folder: "03_Fabrication_Process/03a_Milling_Machine",
+        images: [
+          "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg",
+          "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg",
+        ],
+      },
+      {
+        id: "screencaps",
+        title: "03b) Software Screen Captures",
+        folder: "03_Fabrication_Process/03b_Software_Screencaps",
+        images: [
+          "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg",
+          "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg",
+          "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg",
+          "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg",
+          "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg",
+          "EA498C68-0D11-4208-A011-5F587D00F028.jpeg",
+          "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg",
+        ],
+      },
+      {
+        id: "post",
+        title: "03c) Post-Processing",
+        folder: "03_Fabrication_Process/03c_Post_Processing",
+        images: [
+          "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg",
+        ],
+      },
+      {
+        id: "unsorted",
+        title: "Extra) Unsorted",
+        folder: "02_PCB_Boards/Unsorted",
+        images: [
+          "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg",
+          "76447B38-1E8D-494A-A4D5-135522C61368.jpeg",
+        ],
+      },
+    ];
+
+    const tabsEl = document.getElementById("radarGalleryTabs");
+    const gridEl = document.getElementById("radarGalleryGrid");
+
+    function renderAlbum(album) {
+      // highlight active tab
+      [...tabsEl.querySelectorAll("button")]
+        .forEach(b => b.classList.toggle("active", b.dataset.id === album.id));
+
+      // render images
+      gridEl.innerHTML = "";
+      for (const file of album.images) {
+        const src = BASE + album.folder + "/" + file;
+
+        const fig = document.createElement("figure");
+        fig.innerHTML = `
+          <a href="${src}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+            <img src="${src}" alt="${album.title}">
+            <figcaption>${album.title}</figcaption>
+          </a>
+        `;
+        gridEl.appendChild(fig);
+      }
+    }
+
+    // build tabs
+    for (const album of ALBUMS) {
+      const btn = document.createElement("button");
+      btn.textContent = album.title;
+      btn.dataset.id = album.id;
+      btn.onclick = () => renderAlbum(album);
+      tabsEl.appendChild(btn);
+    }
+
+    // default
+    renderAlbum(ALBUMS[0]);
+  </script>
+  <!-- ===================== END NEW GALLERY ===================== -->
 
   <div class="card">
     <h2>Figures (from my lab / simulation plots)</h2>
