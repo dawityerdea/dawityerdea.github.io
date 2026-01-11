@@ -1,212 +1,211 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radar Passive Microwave Front-End | Dawit Yerdea</title>
   <style>
     :root{
       --border:#e6e6e6;
-      --muted:#5a5a5a;
+      --muted:#5b5b5b;
       --link:#0b57d0;
-      --card:#ffffff;
-      --bg:#ffffff;
-      --soft:#f6f6f6;
+      --card:#fff;
+      --bg:#fff;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --radius: 16px;
     }
     body{
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       margin:0;
-      padding:36px 18px;
-      max-width: 980px;
-      line-height:1.5;
       background: var(--bg);
+      padding: 36px 18px;
+      max-width: 1050px;
+      line-height: 1.5;
       color:#111;
     }
-    a{ color:var(--link); }
-    .muted{ color:var(--muted); }
-    .toplink{ margin-bottom: 16px; display:inline-block; }
-    .card{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
-      margin:14px 0;
+    a{ color: var(--link); }
+    .muted{ color: var(--muted); }
+    .topnav{ margin-bottom: 10px; }
+    .hero{
+      margin: 10px 0 16px;
+      padding: 18px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       background: var(--card);
+      box-shadow: var(--shadow);
     }
-    h1{ margin: 8px 0 6px; }
-    h2{ margin: 0 0 10px; font-size: 1.2rem; }
-    ul{ margin:10px 0; padding-left: 18px; }
-    code{ background:#f3f3f3; padding:2px 6px; border-radius:6px; }
+    h1{ margin: 0 0 6px; font-size: 2rem; letter-spacing: -0.02em; }
+    .tags{ margin-top: 8px; }
+    .tag{
+      display:inline-block;
+      font-size: .9rem;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin-right: 8px;
+      margin-top: 8px;
+      background:#fafafa;
+    }
 
-    /* Pills */
-    .pillbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
+    .card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin: 14px 0;
+    }
+    .grid2{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 12px;
       margin-top: 10px;
     }
     .pillbar a{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border:1px solid #d5d5d5;
-      border-radius:999px;
+      display:inline-block;
+      margin-right: 10px;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 999px;
       text-decoration:none;
       background:#fff;
     }
-
-    /* Artifacts list */
-    .artifactGrid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap:12px;
-      margin-top: 10px;
-    }
-    .artifactBox{
-      border:1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
-    }
-    .artifactBox h3{
-      margin:0 0 10px;
-      font-size: 1.02rem;
-    }
-    .artifactBox ul{ margin:0; padding-left: 18px; }
+    ul{ margin: 10px 0; padding-left: 18px; }
+    code{ background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
 
     /* Gallery */
-    .albumBar{
+    .albumbar{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      margin: 12px 0 12px;
+      margin-top: 10px;
     }
-    .albumBtn{
-      border:1px solid #d6d6d6;
+    .albumbar button{
+      appearance:none;
+      border: 1px solid var(--border);
       background:#fff;
-      border-radius:999px;
-      padding:10px 12px;
+      border-radius: 999px;
+      padding: 10px 14px;
       cursor:pointer;
       font: inherit;
+      transition: transform .05s ease;
     }
-    .albumBtn[aria-pressed="true"]{
-      border-color:#7aa7ff;
-      box-shadow: 0 0 0 3px rgba(11,87,208,0.15);
+    .albumbar button:hover{ transform: translateY(-1px); }
+    .albumbar button.active{
+      border-color: #2b6cff;
+      box-shadow: 0 0 0 3px rgba(43,108,255,.18);
     }
-
-    .photoGrid{
+    .photogrid{
       display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:12px;
-      margin-top: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
     }
-    .photoCard{
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:#fff;
+    figure{
+      margin:0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       overflow:hidden;
-      cursor:pointer;
-      text-align:left;
-      padding:0;
+      background:#fff;
     }
     .thumb{
-      width:100%;
-      height: 160px;
-      object-fit: cover;
       display:block;
-      background: var(--soft);
+      width:100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      background:#f6f6f6;
     }
-    .cap{
-      padding:10px 12px;
-      font-size: 0.95rem;
+    figcaption{
+      padding: 10px 12px 12px;
+      font-size: .95rem;
       color: var(--muted);
     }
-    .errorBadge{
-      display:inline-block;
-      margin-top:6px;
-      font-size:0.85rem;
-      color:#a40000;
+    .capTitle{
+      color:#111;
+      font-weight:600;
+      display:block;
+      margin-bottom: 4px;
+    }
+    .clickhint{
+      margin-top: 6px;
+      font-size:.95rem;
     }
 
     /* Lightbox */
-    .overlay{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,0.72);
+    .lb{
+      position: fixed;
+      inset: 0;
       display:none;
       align-items:center;
       justify-content:center;
-      padding: 18px;
+      background: rgba(0,0,0,.55);
       z-index: 9999;
+      padding: 16px;
     }
-    .overlay.open{ display:flex; }
-    .lightbox{
-      max-width: min(980px, 96vw);
-      width: 980px;
+    .lb.open{ display:flex; }
+    .lbCard{
+      width: min(1100px, 100%);
       background:#111;
-      border-radius:18px;
+      color:#fff;
+      border-radius: 18px;
       overflow:hidden;
-      border:1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.12);
     }
-    .lightboxTop{
+    .lbTop{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
       padding: 12px 14px;
+      gap: 10px;
+      background: rgba(0,0,0,.25);
+    }
+    .lbTop .title{ font-weight:600; }
+    .lbTop a, .lbTop button{
       color:#fff;
-    }
-    .lightboxTop .title{
-      font-size: 0.98rem;
-      opacity: 0.92;
-    }
-    .lightboxTop .actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .lightboxTop a, .lightboxTop button{
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,.25);
       background: transparent;
-      border-radius: 999px;
       padding: 8px 10px;
+      border-radius: 999px;
       text-decoration:none;
-      font: inherit;
       cursor:pointer;
+      font: inherit;
     }
-    .lightboxImgWrap{
-      background:#000;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-    .lightbox img{
-      max-width: 100%;
-      max-height: 75vh;
+    .lbImgWrap{ background:#000; }
+    .lbImg{
       display:block;
+      width:100%;
+      max-height: 78vh;
+      object-fit: contain;
+      background:#000;
+    }
+    .lbCap{
+      padding: 10px 14px 14px;
+      color: rgba(255,255,255,.85);
+      font-size: .95rem;
     }
   </style>
 </head>
-
 <body>
-  <a class="toplink" href="../index.html">← Back to Home</a>
+  <div class="topnav">
+    <a href="../index.html">← Back to Home</a>
+  </div>
 
-  <h1>Radar Passive Microwave Front-End</h1>
-  <p class="muted">
-    ADS / Momentum • 2–3&nbsp;GHz Chebyshev band-pass filter (0.3&nbsp;dB ripple) • couplers • EM + layout documentation
-  </p>
+  <div class="hero">
+    <h1>Radar Passive Microwave Front-End</h1>
+    <p class="muted" style="margin:0;">
+      2–3&nbsp;GHz passive microwave chain designed in ADS with Momentum EM verification and fabrication documentation.
+    </p>
+    <div class="tags">
+      <span class="tag">ADS / Momentum</span>
+      <span class="tag">S-parameters</span>
+      <span class="tag">Filter + Couplers</span>
+      <span class="tag">Layout + Fabrication</span>
+    </div>
 
-  <div class="card">
-    <h2>Project summary</h2>
-    <ul>
-      <li>Designed and documented a microwave front-end workflow from specs → design → EM validation → layout artifacts.</li>
-      <li>Organized deliverables (reports, gerbers, workspace, sample .s2p) and build photos (final vs scrapped + fabrication process).</li>
-      <li>Focused on RF fundamentals: S-parameters, return loss, insertion loss, and iteration after EM/layout checks.</li>
-    </ul>
-
-    <div class="pillbar">
-      <a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Chebyshev filter (PDF)</a>
+    <div class="pillbar" style="margin-top:10px;">
+      <a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Filter design (PDF)</a>
       <a href="../docs/microwave/branchline_coupler.pdf" target="_blank" rel="noopener">Branchline coupler (PDF)</a>
       <a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">EM revisions (PDF)</a>
       <a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a>
@@ -214,264 +213,242 @@
   </div>
 
   <div class="card">
-    <h2>Artifacts (public downloads)</h2>
-
-    <div class="artifactGrid">
-      <div class="artifactBox">
-        <h3>Design docs (PDF)</h3>
+    <h2 style="margin:0 0 8px;">Highlights</h2>
+    <div class="grid2">
+      <div>
         <ul>
-          <li><a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Chebyshev Filter Design</a></li>
-          <li><a href="../docs/microwave/filter_design_ads.pdf" target="_blank" rel="noopener">Filter Design (ADS export)</a></li>
-          <li><a href="../docs/microwave/branchline_coupler.pdf" target="_blank" rel="noopener">Branchline Coupler</a></li>
-          <li><a href="../docs/microwave/coupled_line_coupler_design.pdf" target="_blank" rel="noopener">Coupled-Line Coupler Design</a></li>
-          <li><a href="../docs/microwave/coupled_line_tester.pdf" target="_blank" rel="noopener">Coupled-Line Tester</a></li>
-          <li><a href="../docs/microwave/layout_report.pdf" target="_blank" rel="noopener">Layout Report</a></li>
+          <li><b>Design → EM → build:</b> full workflow from specs to verified layout artifacts.</li>
+          <li><b>RF evidence:</b> VNA screenshots and “measurement-style” plots to support performance.</li>
         </ul>
       </div>
-
-      <div class="artifactBox">
-        <h3>EM + build documentation (PDF)</h3>
+      <div>
         <ul>
-          <li><a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">Electromagnetic Analysis and Revisions</a></li>
-          <li><a href="../docs/microwave/physical_design_and_measurements_report.pdf" target="_blank" rel="noopener">Physical Design and Measurements</a></li>
-          <li><a href="../docs/microwave/system_analysis_report.pdf" target="_blank" rel="noopener">System Analysis</a></li>
-          <li><a href="../docs/microwave/design_status_report.pdf" target="_blank" rel="noopener">Design Status</a></li>
-          <li><a href="../docs/microwave/passive_lab.pdf" target="_blank" rel="noopener">Passive Lab Notes</a></li>
-          <li><a href="../docs/microwave/report_1.pdf" target="_blank" rel="noopener">Report 1</a></li>
-        </ul>
-      </div>
-
-      <div class="artifactBox">
-        <h3>Data + downloads</h3>
-        <ul>
-          <li><a href="../data/microwave/q3.s2p" target="_blank" rel="noopener">Example S-parameter data (.s2p)</a></li>
-          <li><a href="../downloads/microwave/gerber_files.zip" target="_blank" rel="noopener">Gerber files (ZIP)</a></li>
-          <li><a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a></li>
+          <li><b>Fabrication story:</b> final working board + scrapped iterations to show learning.</li>
+          <li><b>Clear deliverables:</b> reports, datasets, gerbers, ADS workspace.</li>
         </ul>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>Build Photos (organized albums)</h2>
-    <p class="muted">
-      Albums are grouped by measurement evidence, PCB results (final vs scrapped), and fabrication workflow.
-      Click any photo to enlarge.
+    <h2 style="margin:0 0 8px;">Artifacts (public downloads)</h2>
+    <ul>
+      <li><a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Chebyshev Filter Design</a></li>
+      <li><a href="../docs/microwave/filter_design_ads.pdf" target="_blank" rel="noopener">Filter Design (ADS export)</a></li>
+      <li><a href="../docs/microwave/branchline_coupler.pdf" target="_blank" rel="noopener">Branchline Coupler</a></li>
+      <li><a href="../docs/microwave/coupled_line_coupler_design.pdf" target="_blank" rel="noopener">Coupled-Line Coupler Design</a></li>
+      <li><a href="../docs/microwave/coupled_line_tester.pdf" target="_blank" rel="noopener">Coupled-Line Tester</a></li>
+      <li><a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">Electromagnetic Analysis and Revisions Report</a></li>
+      <li><a href="../docs/microwave/layout_report.pdf" target="_blank" rel="noopener">Layout Report</a></li>
+      <li><a href="../docs/microwave/physical_design_and_measurements_report.pdf" target="_blank" rel="noopener">Physical Design and Measurements Report</a></li>
+      <li><a href="../docs/microwave/system_analysis_report.pdf" target="_blank" rel="noopener">System Analysis Report</a></li>
+      <li><a href="../docs/microwave/design_status_report.pdf" target="_blank" rel="noopener">Design Status Report</a></li>
+      <li><a href="../docs/microwave/passive_lab.pdf" target="_blank" rel="noopener">Passive Lab Notes</a></li>
+      <li><a href="../docs/microwave/report_1.pdf" target="_blank" rel="noopener">Report 1</a></li>
+      <li><a href="../data/microwave/q3.s2p" target="_blank" rel="noopener">Example S-parameter data (.s2p)</a></li>
+      <li><a href="../downloads/microwave/gerber_files.zip" target="_blank" rel="noopener">Gerber files (ZIP)</a></li>
+      <li><a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin:0 0 6px;">Build Photos (organized albums)</h2>
+    <p class="muted" style="margin:0;">
+      Albums are grouped by measurement evidence, PCB results (final vs scrapped), and the fabrication workflow.
+      <span class="clickhint">Click any photo to enlarge.</span>
     </p>
 
-    <div id="albumBar" class="albumBar" aria-label="Photo albums"></div>
-    <div id="galleryTitle" class="muted" style="margin-top:6px;"></div>
-    <div id="gallery" class="photoGrid"></div>
+    <div class="albumbar" id="albumbar"></div>
+    <div class="photogrid" id="photogrid"></div>
   </div>
 
   <!-- Lightbox -->
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <div class="lightbox">
-      <div class="lightboxTop">
-        <div id="lbTitle" class="title">Photo</div>
-        <div class="actions">
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="lbCard">
+      <div class="lbTop">
+        <div class="title" id="lbTitle">Photo</div>
+        <div style="display:flex; gap:10px; align-items:center;">
           <a id="lbOpen" href="#" target="_blank" rel="noopener">Open original</a>
           <button id="lbClose" type="button">Close</button>
         </div>
       </div>
-      <div class="lightboxImgWrap">
-        <img id="lbImg" alt="" />
+      <div class="lbImgWrap">
+        <img class="lbImg" id="lbImg" alt="" />
       </div>
+      <div class="lbCap" id="lbCap"></div>
     </div>
   </div>
 
   <script>
-    // This page is in /projects/, so "../" points to your repo root on GitHub Pages.
-    // If you move this HTML file, update MEDIA_ROOT accordingly.
-    const MEDIA_ROOT = "../";
+    // This page is assumed to live at: /projects/microwave.html
+    // Photos are stored at the repository root in these folders:
+    // /01_VNA_Measurements, /02_PCB_Boards, /03_Fabrication_Process, /Unsorted
 
-    // Folder structure must match your repo EXACTLY (case-sensitive on GitHub Pages).
-    const ALBUMS = [
+    const albums = [
       {
-        id: "pcb_final",
+        key: "pcb_final",
         label: "02a) PCB Boards — Final Working",
-        dir: "02_PCB_Boards/02a_Final_Working",
+        base: "../02_PCB_Boards/02a_Final_Working",
         items: [
-          { file: "11339D8C-2923-4039-A951-13769A667E05.jpeg", caption: "Final board (view 1)" },
-          { file: "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg", caption: "Final board (view 2)" },
-          { file: "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg", caption: "Final board (view 3)" },
-          { file: "9116F78C-4A00-4654-8F29-562FF3402598.jpeg", caption: "Final board (view 4)" },
-          { file: "91A7658C-B16E-486B-B343-598AA711B201.jpeg", caption: "Final board (view 5)" }
+          { file: "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg", title: "Final working board", caption: "Overview photo of the final working build." },
+          { file: "91A7658C-B16E-486B-B343-598AA711B201.jpeg", title: "Final working board", caption: "Board photo (angle/overview)." },
+          { file: "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg", title: "Final working board", caption: "Assembled pieces / layout features." },
+          { file: "9116F78C-4A00-4654-8F29-562FF3402598.jpeg", title: "Final working board", caption: "Close-up of the assembled board." },
+          { file: "11339D8C-2923-4039-A951-13769A667E05.jpeg", title: "Final working board", caption: "Final working build (parts shown)." }
         ]
       },
       {
-        id: "pcb_scrap",
+        key: "pcb_scrap",
         label: "02b) PCB Boards — Scrapped (Lessons Learned)",
-        dir: "02_PCB_Boards/02b_Scrapped_Lessons_Learned",
+        base: "../02_PCB_Boards/02b_Scrapped_Lessons_Learned",
         items: [
-          { file: "0732928E-8999-4256-9E74-5D0416549D8C.jpeg", caption: "Scrapped board (view 1)" },
-          { file: "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg", caption: "Scrapped board (view 2)" },
-          { file: "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg", caption: "Scrapped board (view 3)" }
+          { file: "0732928E-8999-4256-9E74-5D0416549D8C.jpeg", title: "Scrapped iteration", caption: "Early attempt / iteration kept for lessons learned." },
+          { file: "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg", title: "Scrapped iteration", caption: "Manufacturing mistake / iteration note." },
+          { file: "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg", title: "Scrapped iteration", caption: "Scrapped board photo (process learning evidence)." }
         ]
       },
       {
-        id: "vna",
+        key: "vna",
         label: "01) VNA Measurements",
-        dir: "01_VNA_Measurements",
+        base: "../01_VNA_Measurements",
         items: [
-          { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "VNA measurement (1)" },
-          { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "VNA measurement (2)" },
-          { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", caption: "VNA measurement (3)" },
-          { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", caption: "VNA measurement (4)" }
+          { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", title: "VNA screenshot", caption: "VNA measurement screenshot (S-parameter evidence)." },
+          { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", title: "VNA screenshot", caption: "VNA measurement screenshot (S-parameter evidence)." },
+          { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", title: "VNA screenshot", caption: "VNA measurement screenshot (S-parameter evidence)." },
+          { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", title: "VNA screenshot", caption: "VNA measurement screenshot (S-parameter evidence)." }
         ]
       },
       {
-        id: "parts",
+        key: "materials",
         label: "02c) Materials & Parts",
-        dir: "02_PCB_Boards/02c_Materials_and_Parts",
+        base: "../02_PCB_Boards/02c_Materials_and_Parts",
         items: [
-          { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Materials / parts" }
+          { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", title: "Materials & parts", caption: "Parts/materials used during the build." }
         ]
       },
       {
-        id: "mill",
+        key: "milling",
         label: "03a) Milling Machine",
-        dir: "03_Fabrication_Process/03a_Milling_Machine",
+        base: "../03_Fabrication_Process/03a_Milling_Machine",
         items: [
-          { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling setup / workstation" },
-          { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine / process photo" }
+          { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", title: "Milling machine setup", caption: "Machine setup / workstation." },
+          { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", title: "Machine process", caption: "Process photo during milling." }
         ]
       },
       {
-        id: "screencaps",
+        key: "screencaps",
         label: "03b) Software Screen Captures",
-        dir: "03_Fabrication_Process/03b_Software_Screencaps",
+        base: "../03_Fabrication_Process/03b_Software_Screencaps",
         items: [
-          { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "Software screencap (1)" },
-          { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Software screencap (2)" },
-          { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Software screencap (3)" },
-          { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", caption: "Software screencap (4)" },
-          { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Software screencap (5)" },
-          { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Software screencap (6)" },
-          { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "Software screencap (7)" }
+          { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", title: "Software screencap", caption: "CAM / milling workflow screenshot." },
+          { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", title: "Software screencap", caption: "Toolpath / setup screenshot." },
+          { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", title: "Software screencap", caption: "Process screenshot." },
+          { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", title: "Software screencap", caption: "Process screenshot." },
+          { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", title: "Software screencap", caption: "Process screenshot." },
+          { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", title: "Software screencap", caption: "Process screenshot." },
+          { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", title: "Software screencap", caption: "Process screenshot." }
         ]
       },
       {
-        id: "post",
+        key: "post",
         label: "03c) Post-Processing",
-        dir: "03_Fabrication_Process/03c_Post_Processing",
+        base: "../03_Fabrication_Process/03c_Post_Processing",
         items: [
-          { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing (1)" }
+          { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", title: "Post-processing", caption: "Post-processing / finalization step." }
         ]
       },
       {
-        id: "unsorted",
+        key: "unsorted",
         label: "Extra) Unsorted",
-        dir: "02_PCB_Boards/Unsorted",
+        base: "../Unsorted",
         items: [
-          { file: "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg", caption: "Unsorted (1)" },
-          { file: "76447B38-1E8D-494A-A4D5-135522C61368.jpeg", caption: "Unsorted (2)" }
+          { file: "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg", title: "Unsorted photo", caption: "Needs categorization (kept for completeness)." },
+          { file: "76447B38-1E8D-494A-A4D5-135522C61368.jpeg", title: "Unsorted photo", caption: "Needs categorization (kept for completeness)." }
         ]
       }
     ];
 
-    const albumBar = document.getElementById("albumBar");
-    const gallery = document.getElementById("gallery");
-    const galleryTitle = document.getElementById("galleryTitle");
+    const albumbar = document.getElementById("albumbar");
+    const photogrid = document.getElementById("photogrid");
 
-    const overlay = document.getElementById("overlay");
+    const lb = document.getElementById("lb");
     const lbImg = document.getElementById("lbImg");
     const lbTitle = document.getElementById("lbTitle");
+    const lbCap = document.getElementById("lbCap");
     const lbOpen = document.getElementById("lbOpen");
     const lbClose = document.getElementById("lbClose");
 
-    function pathFor(dir, file){
-      return MEDIA_ROOT + dir + "/" + encodeURIComponent(file);
-    }
-
-    function setActiveAlbum(albumId){
-      // Toggle pressed state
-      [...albumBar.querySelectorAll("button")].forEach(btn=>{
-        btn.setAttribute("aria-pressed", btn.dataset.id === albumId ? "true" : "false");
-      });
-
-      const album = ALBUMS.find(a => a.id === albumId) || ALBUMS[0];
-      galleryTitle.textContent = album.label + " (" + album.items.length + ")";
-
-      // Render
-      gallery.innerHTML = "";
-      album.items.forEach(item=>{
-        const src = pathFor(album.dir, item.file);
-
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = "photoCard";
-        card.title = "Click to enlarge";
-
-        const img = document.createElement("img");
-        img.className = "thumb";
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.alt = item.caption;
-        img.src = src;
-
-        // If something is still wrong, show a clear debug hint on the card.
-        img.onerror = () => {
-          img.style.display = "none";
-          const cap = document.createElement("div");
-          cap.className = "cap";
-          cap.innerHTML = `
-            <div>${item.caption}</div>
-            <div class="errorBadge">Image not found: <code>${album.dir}/${item.file}</code></div>
-          `;
-          card.appendChild(cap);
-        };
-
-        const cap = document.createElement("div");
-        cap.className = "cap";
-        cap.textContent = item.caption;
-
-        card.appendChild(img);
-        card.appendChild(cap);
-
-        card.addEventListener("click", ()=>{
-          openLightbox(src, item.caption);
-        });
-
-        gallery.appendChild(card);
-      });
-    }
-
-    function openLightbox(src, caption){
+    function openLightbox(src, title, caption){
       lbImg.src = src;
-      lbImg.alt = caption;
-      lbTitle.textContent = caption;
+      lbImg.alt = title || "Photo";
+      lbTitle.textContent = title || "Photo";
+      lbCap.textContent = caption || "";
       lbOpen.href = src;
-      overlay.classList.add("open");
+      lb.classList.add("open");
     }
 
     function closeLightbox(){
-      overlay.classList.remove("open");
+      lb.classList.remove("open");
       lbImg.src = "";
     }
 
-    overlay.addEventListener("click", (e)=>{
-      if(e.target === overlay) closeLightbox();
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) closeLightbox();
     });
     lbClose.addEventListener("click", closeLightbox);
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape") closeLightbox();
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
     });
 
-    // Build album buttons
-    ALBUMS.forEach((a, idx)=>{
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "albumBtn";
-      btn.dataset.id = a.id;
-      btn.setAttribute("aria-pressed", idx === 0 ? "true" : "false");
-      btn.textContent = `${a.label} (${a.items.length})`;
-      btn.addEventListener("click", ()=> setActiveAlbum(a.id));
-      albumBar.appendChild(btn);
-    });
+    function renderAlbumButtons(activeKey){
+      albumbar.innerHTML = "";
+      for(const a of albums){
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = `${a.label} (${a.items.length})`;
+        btn.className = (a.key === activeKey) ? "active" : "";
+        btn.addEventListener("click", () => {
+          renderAlbumButtons(a.key);
+          renderGrid(a.key);
+        });
+        albumbar.appendChild(btn);
+      }
+    }
+
+    function renderGrid(activeKey){
+      const album = albums.find(a => a.key === activeKey) || albums[0];
+      photogrid.innerHTML = "";
+
+      for(const it of album.items){
+        const src = `${album.base}/${it.file}`;
+
+        const fig = document.createElement("figure");
+        const img = document.createElement("img");
+        img.className = "thumb";
+        img.loading = "lazy";
+        img.src = src;
+        img.alt = it.title || "Photo";
+
+        // If path is wrong, you'll see it immediately but page still works.
+        img.onerror = () => {
+          img.alt = `Missing: ${it.file}`;
+        };
+
+        img.addEventListener("click", () => openLightbox(src, it.title, it.caption));
+
+        const cap = document.createElement("figcaption");
+        cap.innerHTML = `<span class="capTitle">${it.title || "Photo"}</span>${it.caption || ""}`;
+
+        fig.appendChild(img);
+        fig.appendChild(cap);
+        photogrid.appendChild(fig);
+      }
+    }
 
     // Default album
-    setActiveAlbum(ALBUMS[0].id);
+    const defaultKey = "pcb_final";
+    renderAlbumButtons(defaultKey);
+    renderGrid(defaultKey);
   </script>
 </body>
 </html>
