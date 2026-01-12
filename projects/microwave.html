@@ -17,7 +17,6 @@
       --shadow: 0 10px 30px rgba(0,0,0,0.06);
       --radius: 16px;
     }
-
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       margin:0;
@@ -25,16 +24,13 @@
       color: var(--text);
       line-height:1.5;
     }
-
     .wrap{
       max-width: 1040px;
       margin: 0 auto;
       padding: 34px 18px 60px;
     }
-
     a{ color: var(--link); text-decoration: none; }
     a:hover{ text-decoration: underline; }
-
     .toplink{ margin-bottom: 14px; display:inline-block; }
 
     header{
@@ -44,7 +40,6 @@
       box-shadow: var(--shadow);
       padding: 18px;
     }
-
     h1{ margin: 0 0 6px 0; font-size: 2rem; letter-spacing: -0.02em; }
     .subtitle{ margin:0; color: var(--muted); }
 
@@ -85,7 +80,6 @@
 
     h2{ margin:0 0 10px 0; font-size: 1.25rem; letter-spacing: -0.01em; }
     h3{ margin:0 0 10px 0; font-size: 1.05rem; }
-
     ul{ margin: 8px 0; padding-left: 18px; }
     .muted{ color: var(--muted); }
 
@@ -163,7 +157,6 @@
     img{ width:100%; height:auto; border-radius: 12px; display:block; }
     figcaption{ margin-top: 6px; font-size: 0.92rem; color: var(--muted); }
 
-    /* Lightbox */
     .lightbox{
       position: fixed;
       inset:0;
@@ -206,8 +199,6 @@
       border-radius: 12px;
       display:block;
     }
-
-    code{ background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
   </style>
 </head>
 
@@ -224,7 +215,7 @@
         <div class="chip">0.3&nbsp;dB ripple target</div>
         <div class="chip">Momentum EM simulation</div>
         <div class="chip">LPKF milling workflow</div>
-        <div class="chip">VNA-style validation photos</div>
+        <div class="chip">VNA measurement photos</div>
       </div>
     </header>
 
@@ -232,15 +223,9 @@
       <div class="card">
         <h2>Project Summary</h2>
         <p class="muted">
-          This project demonstrates an end-to-end RF/microwave workflow: specification-driven design, ADS schematic + layout,
-          Momentum EM analysis, fabrication on a PCB milling machine, and practical build documentation (including lessons learned).
+          End-to-end RF/microwave workflow: specification-driven design, ADS schematic + layout,
+          Momentum EM analysis, fabrication on a PCB milling machine, and build documentation (including lessons learned).
         </p>
-        <ul>
-          <li><b>Design:</b> Chebyshev band-pass filter and microwave coupler structures built and documented in ADS.</li>
-          <li><b>EM iteration:</b> Used Momentum to validate and refine layout behavior beyond ideal transmission-line models.</li>
-          <li><b>Fabrication:</b> Generated manufacturable artwork and executed milling/processing steps.</li>
-          <li><b>Validation:</b> Captured measurement-style evidence (VNA screen photos) and build photos.</li>
-        </ul>
 
         <div class="pillbar" aria-label="Quick links">
           <a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Filter design (PDF)</a>
@@ -253,30 +238,10 @@
       <div class="card">
         <h2>Design Targets</h2>
         <table class="specs" aria-label="Design targets table">
-          <tr>
-            <th>Band</th>
-            <td>2.0–3.0&nbsp;GHz (passband focus: 2–3&nbsp;GHz)</td>
-          </tr>
-          <tr>
-            <th>Passband ripple</th>
-            <td>0.3&nbsp;dB (±0.1&nbsp;dB)</td>
-          </tr>
-          <tr>
-            <th>Excess loss</th>
-            <td>&lt; 0.5&nbsp;dB</td>
-          </tr>
-          <tr>
-            <th>Out-of-band rejection</th>
-            <td>&gt; 40&nbsp;dB for &lt; 2.2&nbsp;GHz and &gt; 2.7&nbsp;GHz</td>
-          </tr>
-          <tr>
-            <th>Return loss (passband)</th>
-            <td>&gt; 11&nbsp;dB</td>
-          </tr>
+          <tr><th>Band</th><td>2.0–3.0&nbsp;GHz</td></tr>
+          <tr><th>Passband ripple</th><td>0.3&nbsp;dB</td></tr>
+          <tr><th>Return loss (passband)</th><td>&gt; 11&nbsp;dB</td></tr>
         </table>
-        <p class="muted" style="margin-top:10px;">
-          Supporting reports and exported datasets are linked below.
-        </p>
       </div>
     </div>
 
@@ -295,13 +260,11 @@
         </div>
 
         <div class="artifactBox">
-          <h3>EM + Layout Documentation (PDF)</h3>
+          <h3>EM + Layout (PDF)</h3>
           <ul>
-            <li><a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">Electromagnetic Analysis and Revisions Report</a></li>
+            <li><a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">EM Analysis & Revisions</a></li>
             <li><a href="../docs/microwave/layout_report.pdf" target="_blank" rel="noopener">Layout Report</a></li>
-            <li><a href="../docs/microwave/physical_design_and_measurements_report.pdf" target="_blank" rel="noopener">Physical Design and Measurements Report</a></li>
-            <li><a href="../docs/microwave/system_analysis_report.pdf" target="_blank" rel="noopener">System Analysis Report</a></li>
-            <li><a href="../docs/microwave/design_status_report.pdf" target="_blank" rel="noopener">Design Status Report</a></li>
+            <li><a href="../docs/microwave/physical_design_and_measurements_report.pdf" target="_blank" rel="noopener">Physical Design & Measurements</a></li>
           </ul>
         </div>
 
@@ -311,23 +274,19 @@
             <li><a href="../data/microwave/q3.s2p" target="_blank" rel="noopener">Example S-parameter data (.s2p)</a></li>
             <li><a href="../downloads/microwave/gerber_files.zip" target="_blank" rel="noopener">Gerber files (ZIP)</a></li>
             <li><a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a></li>
-            <li><a href="../docs/microwave/passive_lab.pdf" target="_blank" rel="noopener">Passive Lab Notes</a></li>
-            <li><a href="../docs/microwave/report_1.pdf" target="_blank" rel="noopener">Report 1</a></li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- Build Photos / Album Gallery -->
     <div class="card" id="build-photos">
       <h2>Build Photos (organized albums)</h2>
-      <p class="muted">Albums are grouped by measurement evidence, PCB results (final vs scrapped), and fabrication workflow. Click any photo to enlarge.</p>
+      <p class="muted">Grouped by measurements, PCB results (final vs scrapped), and fabrication workflow. Click any photo to enlarge.</p>
 
       <div id="albumBar" class="pillbar" aria-label="Album selector"></div>
       <div id="gallery" class="galleryGrid" aria-label="Photo gallery grid"></div>
     </div>
 
-    <!-- Lightbox modal -->
     <div id="lightbox" class="lightbox" aria-hidden="true">
       <div class="lightbox-inner">
         <div class="lightbox-top">
@@ -343,9 +302,8 @@
 
     <script>
       (() => {
-        // This page is inside /projects/, while your image folders are at the repo root.
-        // So the correct base is "../" (go up from /projects/ to repo root).
-        const BASE = new URL("../", document.baseURI); // robust absolute base URL
+        // This page is /projects/microwave.html, so ../ goes to repo root
+        const BASE = "../";
 
         const albums = [
           {
@@ -375,10 +333,10 @@
             title: "01) VNA Measurements",
             folder: "VNA_Measurements",
             items: [
-              { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "VNA measurement evidence (screen photo)" },
-              { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "VNA measurement evidence (screen photo)" },
-              { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", caption: "VNA measurement evidence (screen photo)" },
-              { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", caption: "VNA measurement evidence (screen photo)" }
+              { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "VNA measurement (screen photo)" },
+              { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "VNA measurement (screen photo)" },
+              { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", caption: "VNA measurement (screen photo)" },
+              { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", caption: "VNA measurement (screen photo)" }
             ]
           },
           {
@@ -387,7 +345,7 @@
             folder: "Fabrication_Process/03a_Milling_Machine",
             items: [
               { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
-              { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine/process photo" }
+              { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine / process photo" }
             ]
           },
           {
@@ -397,11 +355,11 @@
             items: [
               { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "LPKF / CAM workflow (screen capture)" },
               { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Gerber import / setup (screen capture)" },
-              { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Import options / layer mapping (screen capture)" },
+              { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Layer mapping (screen capture)" },
               { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", caption: "Toolpath preview (screen capture)" },
-              { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Layout/copper preview (screen capture)" },
-              { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Selection / alignment view (screen capture)" },
-              { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "CAM view / layer setup (screen capture)" }
+              { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Copper preview (screen capture)" },
+              { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Alignment view (screen capture)" },
+              { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "CAM view (screen capture)" }
             ]
           },
           {
@@ -409,7 +367,7 @@
             title: "03c) Post-Processing",
             folder: "Fabrication_Process/03c_Post_Processing",
             items: [
-              { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing result / cleanup" }
+              { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing / cleanup" }
             ]
           },
           {
@@ -417,7 +375,7 @@
             title: "02c) Materials & Parts",
             folder: "PCB_Boards/02c_Materials_and_Parts",
             items: [
-              { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Copper-clad material + RF connectors" }
+              { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Copper-clad + RF connectors" }
             ]
           },
           {
@@ -458,16 +416,12 @@
         lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
 
-        function buildSrc(albumFolder, file) {
-          return new URL(`${albumFolder}/${file}`, BASE).href;
-        }
-
         function renderAlbum(albumId) {
           const album = albums.find(a => a.id === albumId) || albums[0];
           gallery.innerHTML = "";
 
           album.items.forEach((it) => {
-            const src = buildSrc(album.folder, it.file);
+            const src = `${BASE}${album.folder}/${it.file}`;
 
             const fig = document.createElement("figure");
 
@@ -490,7 +444,6 @@
           });
         }
 
-        // Album buttons
         albums.forEach((a) => {
           const btn = document.createElement("button");
           btn.type = "button";
