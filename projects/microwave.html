@@ -17,6 +17,7 @@
       --shadow: 0 10px 30px rgba(0,0,0,0.06);
       --radius: 16px;
     }
+
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       margin:0;
@@ -24,11 +25,13 @@
       color: var(--text);
       line-height:1.5;
     }
+
     .wrap{
       max-width: 1040px;
       margin: 0 auto;
       padding: 34px 18px 60px;
     }
+
     a{ color: var(--link); text-decoration: none; }
     a:hover{ text-decoration: underline; }
     .toplink{ margin-bottom: 14px; display:inline-block; }
@@ -40,6 +43,7 @@
       box-shadow: var(--shadow);
       padding: 18px;
     }
+
     h1{ margin: 0 0 6px 0; font-size: 2rem; letter-spacing: -0.02em; }
     .subtitle{ margin:0; color: var(--muted); }
 
@@ -80,6 +84,7 @@
 
     h2{ margin:0 0 10px 0; font-size: 1.25rem; letter-spacing: -0.01em; }
     h3{ margin:0 0 10px 0; font-size: 1.05rem; }
+
     ul{ margin: 8px 0; padding-left: 18px; }
     .muted{ color: var(--muted); }
 
@@ -89,7 +94,7 @@
       gap:10px;
       margin-top: 10px;
     }
-    .pillbar a, .pillbar button{
+    .pillbar a{
       display:inline-flex;
       align-items:center;
       gap:8px;
@@ -101,10 +106,6 @@
       font: inherit;
       text-decoration:none;
       color: #111;
-    }
-    .pillbar button.active{
-      border-color: var(--link);
-      box-shadow: 0 0 0 3px rgba(11,87,208,0.12);
     }
 
     .specs{
@@ -141,6 +142,45 @@
     }
     .artifactBox ul{ margin: 8px 0 0 0; padding-left: 18px; }
 
+    /* Folder UI */
+    .toggleBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border: 1px solid #cfcfcf;
+      border-radius: 999px;
+      background: #fff;
+      cursor:pointer;
+      font: inherit;
+      color:#111;
+    }
+    .toggleBtn[aria-expanded="true"]{
+      border-color: var(--link);
+      box-shadow: 0 0 0 3px rgba(11,87,208,0.12);
+    }
+
+    details.folder{
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      background: #fff;
+    }
+    details.folder > summary{
+      list-style: none;
+      cursor: pointer;
+      font-weight: 650;
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+    details.folder > summary::-webkit-details-marker{ display:none; }
+    details.folder[open] > summary{
+      background: #f7f9ff;
+      border: 1px solid rgba(11,87,208,0.15);
+    }
+
+    /* Gallery */
     .galleryGrid{
       display:grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -157,6 +197,7 @@
     img{ width:100%; height:auto; border-radius: 12px; display:block; }
     figcaption{ margin-top: 6px; font-size: 0.92rem; color: var(--muted); }
 
+    /* Lightbox */
     .lightbox{
       position: fixed;
       inset:0;
@@ -199,6 +240,16 @@
       border-radius: 12px;
       display:block;
     }
+
+    .note{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed #d8d8d8;
+      border-radius: 12px;
+      color: var(--muted);
+      background: #fafafa;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 
@@ -215,7 +266,7 @@
         <div class="chip">0.3&nbsp;dB ripple target</div>
         <div class="chip">Momentum EM simulation</div>
         <div class="chip">LPKF milling workflow</div>
-        <div class="chip">VNA measurement photos</div>
+        <div class="chip">VNA evidence (photos)</div>
       </div>
     </header>
 
@@ -226,6 +277,12 @@
           End-to-end RF/microwave workflow: specification-driven design, ADS schematic + layout,
           Momentum EM analysis, fabrication on a PCB milling machine, and build documentation (including lessons learned).
         </p>
+        <ul>
+          <li><b>Design:</b> Chebyshev band-pass filter and coupler structures in ADS.</li>
+          <li><b>EM iteration:</b> Momentum used to refine layout behavior beyond ideal models.</li>
+          <li><b>Fabrication:</b> Generated manufacturable artwork and executed milling/processing steps.</li>
+          <li><b>Evidence:</b> VNA screen photos + build photos.</li>
+        </ul>
 
         <div class="pillbar" aria-label="Quick links">
           <a href="../docs/microwave/chebyshev_filter_design.pdf" target="_blank" rel="noopener">Filter design (PDF)</a>
@@ -240,7 +297,8 @@
         <table class="specs" aria-label="Design targets table">
           <tr><th>Band</th><td>2.0–3.0&nbsp;GHz</td></tr>
           <tr><th>Passband ripple</th><td>0.3&nbsp;dB</td></tr>
-          <tr><th>Return loss (passband)</th><td>&gt; 11&nbsp;dB</td></tr>
+          <tr><th>Return loss</th><td>&gt; 11&nbsp;dB</td></tr>
+          <tr><th>Goal</th><td>Minimize excess loss; validate with EM + build evidence</td></tr>
         </table>
       </div>
     </div>
@@ -265,6 +323,8 @@
             <li><a href="../docs/microwave/electromagnetic_analysis_and_revisions_report.pdf" target="_blank" rel="noopener">EM Analysis & Revisions</a></li>
             <li><a href="../docs/microwave/layout_report.pdf" target="_blank" rel="noopener">Layout Report</a></li>
             <li><a href="../docs/microwave/physical_design_and_measurements_report.pdf" target="_blank" rel="noopener">Physical Design & Measurements</a></li>
+            <li><a href="../docs/microwave/system_analysis_report.pdf" target="_blank" rel="noopener">System Analysis</a></li>
+            <li><a href="../docs/microwave/design_status_report.pdf" target="_blank" rel="noopener">Design Status</a></li>
           </ul>
         </div>
 
@@ -274,19 +334,32 @@
             <li><a href="../data/microwave/q3.s2p" target="_blank" rel="noopener">Example S-parameter data (.s2p)</a></li>
             <li><a href="../downloads/microwave/gerber_files.zip" target="_blank" rel="noopener">Gerber files (ZIP)</a></li>
             <li><a href="../downloads/microwave/ads_workspace.zip" target="_blank" rel="noopener">ADS workspace (ZIP)</a></li>
+            <li><a href="../docs/microwave/passive_lab.pdf" target="_blank" rel="noopener">Passive Lab Notes</a></li>
+            <li><a href="../docs/microwave/report_1.pdf" target="_blank" rel="noopener">Report 1</a></li>
           </ul>
         </div>
       </div>
     </div>
 
+    <!-- Build Photos -->
     <div class="card" id="build-photos">
-      <h2>Build Photos (organized albums)</h2>
-      <p class="muted">Grouped by measurements, PCB results (final vs scrapped), and fabrication workflow. Click any photo to enlarge.</p>
+      <button id="buildToggle" class="toggleBtn" type="button" aria-expanded="true">
+        Build Photos (organized albums)
+      </button>
 
-      <div id="albumBar" class="pillbar" aria-label="Album selector"></div>
-      <div id="gallery" class="galleryGrid" aria-label="Photo gallery grid"></div>
+      <div id="buildPanel" style="margin-top:12px;">
+        <p class="muted">Folders → subfolders → photo gallery. Click any photo to enlarge.</p>
+
+        <div id="folderTree"></div>
+
+        <div class="note">
+          If images still show broken icons: open one image URL directly in your browser (example:
+          <code>/VNA_Measurements/54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg</code>). If it’s 404, the photo folders are not uploaded/committed to GitHub yet.
+        </div>
+      </div>
     </div>
 
+    <!-- Lightbox modal -->
     <div id="lightbox" class="lightbox" aria-hidden="true">
       <div class="lightbox-inner">
         <div class="lightbox-top">
@@ -302,96 +375,104 @@
 
     <script>
       (() => {
-        // This page is /projects/microwave.html, so ../ goes to repo root
+        // This page is /projects/microwave.html, and your photo folders are at repo root.
+        // So "../" correctly points from /projects/ back to repo root.
         const BASE = "../";
 
-        const albums = [
+        // Folder structure you showed:
+        // - VNA_Measurements (4 photos)
+        // - PCB_Boards/02a..., 02b..., 02c...
+        // - Fabrication_Process/03a..., 03b..., 03c...
+        const tree = [
           {
-            id: "final",
-            title: "02a) PCB Boards — Final Working",
-            folder: "PCB_Boards/02a_Final_Working",
+            title: "VNA_Measurements",
+            path: "VNA_Measurements",
             items: [
-              { file: "11339D8C-2923-4039-A951-13769A667E05.jpeg", caption: "Final working board (overview)" },
-              { file: "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg", caption: "Final working board (build angle)" },
-              { file: "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg", caption: "Final working board (assembled pieces)" },
-              { file: "9116F78C-4A00-4654-8F29-562FF3402598.jpeg", caption: "Final working board (close-up)" },
-              { file: "91A7658C-B16E-486B-B343-598AA711B201.jpeg", caption: "Final working board (layout/features)" }
+              { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "S-parameters (VNA screen #1)" },
+              { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "S-parameters (VNA screen #2)" },
+              { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", caption: "S-parameters (VNA screen #3)" },
+              { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", caption: "S-parameters (VNA screen #4)" }
             ]
           },
           {
-            id: "scrap",
-            title: "02b) PCB Boards — Scrapped (Lessons Learned)",
-            folder: "PCB_Boards/02b_Scrapped_Lessons_Learned",
-            items: [
-              { file: "0732928E-8999-4256-9E74-5D0416549D8C.jpeg", caption: "Scrapped board (manufacturing issue)" },
-              { file: "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg", caption: "Scrapped board (trace/edge quality)" },
-              { file: "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg", caption: "Scrapped board (process outcome)" }
+            title: "PCB_Boards",
+            path: "PCB_Boards",
+            children: [
+              {
+                title: "02a_Final_Working",
+                path: "02a_Final_Working",
+                items: [
+                  { file: "11339D8C-2923-4039-A951-13769A667E05.jpeg", caption: "Final board (overview)" },
+                  { file: "2B4C02B3-8314-4DB1-B746-27919C620702.jpeg", caption: "Final board (build angle)" },
+                  { file: "3624E0B7-3AC4-410F-ACD3-F6C390C89146.jpeg", caption: "Final board (assembled pieces)" },
+                  { file: "9116F78C-4A00-4654-8F29-562FF3402598.jpeg", caption: "Final board (close-up)" },
+                  { file: "91A7658C-B16E-486B-B343-598AA711B201.jpeg", caption: "Final board (layout/features)" }
+                ]
+              },
+              {
+                title: "02b_Scrapped_Lessons_Learned",
+                path: "02b_Scrapped_Lessons_Learned",
+                items: [
+                  { file: "0732928E-8999-4256-9E74-5D0416549D8C.jpeg", caption: "Scrapped board (issue #1)" },
+                  { file: "B1940C04-F6D7-4834-BEB5-A273E9CA3898.jpeg", caption: "Scrapped board (issue #2)" },
+                  { file: "B5F1669E-3D6E-434E-A7B9-98EEA7E8CFBF.jpeg", caption: "Scrapped board (issue #3)" }
+                ]
+              },
+              {
+                title: "02c_Materials_and_Parts",
+                path: "02c_Materials_and_Parts",
+                items: [
+                  { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Materials & parts (connectors / copper-clad)" }
+                ]
+              }
             ]
           },
           {
-            id: "vna",
-            title: "01) VNA Measurements",
-            folder: "VNA_Measurements",
-            items: [
-              { file: "54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg", caption: "VNA measurement (screen photo)" },
-              { file: "7F101599-926C-4071-9A1A-2B16C39DD914.jpeg", caption: "VNA measurement (screen photo)" },
-              { file: "BAE9C9DF-0227-406C-8862-B5F3C6AAD27E.jpeg", caption: "VNA measurement (screen photo)" },
-              { file: "C6882560-7ACD-4418-8104-4A162B1319CC.jpeg", caption: "VNA measurement (screen photo)" }
-            ]
-          },
-          {
-            id: "mill",
-            title: "03a) Milling Machine",
-            folder: "Fabrication_Process/03a_Milling_Machine",
-            items: [
-              { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
-              { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine / process photo" }
-            ]
-          },
-          {
-            id: "screencaps",
-            title: "03b) Software Screen Captures",
-            folder: "Fabrication_Process/03b_Software_Screencaps",
-            items: [
-              { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "LPKF / CAM workflow (screen capture)" },
-              { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Gerber import / setup (screen capture)" },
-              { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Layer mapping (screen capture)" },
-              { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", caption: "Toolpath preview (screen capture)" },
-              { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Copper preview (screen capture)" },
-              { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Alignment view (screen capture)" },
-              { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "CAM view (screen capture)" }
-            ]
-          },
-          {
-            id: "post",
-            title: "03c) Post-Processing",
-            folder: "Fabrication_Process/03c_Post_Processing",
-            items: [
-              { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing / cleanup" }
-            ]
-          },
-          {
-            id: "parts",
-            title: "02c) Materials & Parts",
-            folder: "PCB_Boards/02c_Materials_and_Parts",
-            items: [
-              { file: "0783D3BD-E58D-4DCE-9ECD-B9999CB84458.jpeg", caption: "Copper-clad + RF connectors" }
-            ]
-          },
-          {
-            id: "extra",
-            title: "Extra) Unsorted",
-            folder: "Unsorted",
-            items: [
-              { file: "20EBC680-904F-4DCF-8CDE-95376890A88F.jpeg", caption: "Unsorted build photo" },
-              { file: "76447B38-1E8D-494A-A4D5-135522C61368.jpeg", caption: "Unsorted build photo" }
+            title: "Fabrication_Process",
+            path: "Fabrication_Process",
+            children: [
+              {
+                title: "03a_Milling_Machine",
+                path: "03a_Milling_Machine",
+                items: [
+                  { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
+                  { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Milling process photo" }
+                ]
+              },
+              {
+                title: "03b_Software_Screencaps",
+                path: "03b_Software_Screencaps",
+                items: [
+                  { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "CAM workflow (screen capture)" },
+                  { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Import/setup (screen capture)" },
+                  { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Layer mapping (screen capture)" },
+                  { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", caption: "Toolpath preview (screen capture)" },
+                  { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Copper preview (screen capture)" },
+                  { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Alignment/selection (screen capture)" },
+                  { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "CAM view (screen capture)" }
+                ]
+              },
+              {
+                title: "03c_Post_Processing",
+                path: "03c_Post_Processing",
+                items: [
+                  { file: "73A7C5D1-BDDE-42F8-A296-B62A17CCFA81.jpeg", caption: "Post-processing / cleanup result" }
+                ]
+              }
             ]
           }
         ];
 
-        const albumBar = document.getElementById("albumBar");
-        const gallery = document.getElementById("gallery");
+        // Build Photos toggle (button)
+        const toggleBtn = document.getElementById("buildToggle");
+        const panel = document.getElementById("buildPanel");
+        toggleBtn.addEventListener("click", () => {
+          const open = toggleBtn.getAttribute("aria-expanded") === "true";
+          toggleBtn.setAttribute("aria-expanded", String(!open));
+          panel.style.display = open ? "none" : "block";
+        });
 
+        // Lightbox
         const lightbox = document.getElementById("lightbox");
         const lightboxImg = document.getElementById("lightboxImg");
         const lightboxCaption = document.getElementById("lightboxCaption");
@@ -405,55 +486,74 @@
           lightbox.classList.add("open");
           lightbox.setAttribute("aria-hidden", "false");
         }
-
         function closeLightbox() {
           lightbox.classList.remove("open");
           lightbox.setAttribute("aria-hidden", "true");
           lightboxImg.src = "";
         }
-
         lightboxClose.addEventListener("click", closeLightbox);
         lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
 
-        function renderAlbum(albumId) {
-          const album = albums.find(a => a.id === albumId) || albums[0];
-          gallery.innerHTML = "";
+        // Render helpers
+        const root = document.getElementById("folderTree");
 
-          album.items.forEach((it) => {
-            const src = `${BASE}${album.folder}/${it.file}`;
+        function makeGallery(items, fullPath) {
+          const grid = document.createElement("div");
+          grid.className = "galleryGrid";
+
+          items.forEach(it => {
+            const src = `${BASE}${fullPath}/${it.file}`;
 
             const fig = document.createElement("figure");
-
             const img = document.createElement("img");
             img.src = src;
             img.alt = it.caption;
             img.loading = "lazy";
             img.addEventListener("click", () => openLightbox(src, it.caption));
 
+            // Helpful debug if a file path is wrong:
+            img.onerror = () => {
+              img.style.display = "none";
+              const cap = fig.querySelector("figcaption");
+              if (cap) cap.textContent = `Missing (404): ${fullPath}/${it.file}`;
+            };
+
             const cap = document.createElement("figcaption");
             cap.textContent = it.caption;
 
             fig.appendChild(img);
             fig.appendChild(cap);
-            gallery.appendChild(fig);
+            grid.appendChild(fig);
           });
 
-          [...albumBar.querySelectorAll("button")].forEach(btn => {
-            btn.classList.toggle("active", btn.dataset.album === album.id);
-          });
+          return grid;
         }
 
-        albums.forEach((a) => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.dataset.album = a.id;
-          btn.textContent = `${a.title} (${a.items.length})`;
-          btn.addEventListener("click", () => renderAlbum(a.id));
-          albumBar.appendChild(btn);
-        });
+        function renderNode(node, parentPath = "") {
+          const fullPath = parentPath ? `${parentPath}/${node.path}` : node.path;
 
-        renderAlbum("final");
+          const details = document.createElement("details");
+          details.className = "folder";
+          details.open = true;
+
+          const summary = document.createElement("summary");
+          summary.textContent = node.title;
+
+          details.appendChild(summary);
+
+          if (node.items && node.items.length) {
+            details.appendChild(makeGallery(node.items, fullPath));
+          }
+
+          if (node.children && node.children.length) {
+            node.children.forEach(child => details.appendChild(renderNode(child, fullPath)));
+          }
+
+          return details;
+        }
+
+        tree.forEach(n => root.appendChild(renderNode(n)));
       })();
     </script>
   </div>
