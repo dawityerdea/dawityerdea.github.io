@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SLAC Orbit Fitting & Diagnostics | Dawit Yerdea</title>
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111;
+      --muted:#5a5a5a;
+      --border:#e6e6e6;
+      --card:#fff;
+      --link:#0b57d0;
+      --chip:#f5f7fb;
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --radius: 16px;
+    }
+
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.5;
+    }
+
+    .wrap{
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 34px 18px 60px;
+    }
+
+    a{ color: var(--link); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+    .toplink{ margin-bottom: 14px; display:inline-block; }
+
+    header{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #fbfcff 0%, #ffffff 100%);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    h1{ margin: 0 0 6px 0; font-size: 2rem; letter-spacing: -0.02em; }
+    .subtitle{ margin:0; color: var(--muted); }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 14px;
+    }
+    .chip{
+      background: var(--chip);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #1b1b1b;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 920px){
+      .grid2{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-top: 14px;
+    }
+    .grid2 > .card{ margin-top: 0; }
+
+    h2{ margin:0 0 10px 0; font-size: 1.25rem; letter-spacing: -0.01em; }
+    h3{ margin:0 0 10px 0; font-size: 1.05rem; }
+
+    ul{ margin: 8px 0; padding-left: 18px; }
+    .muted{ color: var(--muted); }
+
+    .pillbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .pillbar a{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border: 1px solid #cfcfcf;
+      border-radius: 999px;
+      background: #fff;
+      cursor:pointer;
+      font: inherit;
+      text-decoration:none;
+      color: #111;
+    }
+
+    .specs{
+      width:100%;
+      border-collapse: collapse;
+      overflow:hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .specs th, .specs td{
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      text-align:left;
+      font-size: 0.98rem;
+    }
+    .specs th{
+      background: #fafafa;
+      width: 40%;
+      white-space: nowrap;
+    }
+    .specs tr:last-child td, .specs tr:last-child th{ border-bottom: none; }
+
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed #d8d8d8;
+      border-radius: 12px;
+      color: var(--muted);
+      background: #fafafa;
+      font-size: 0.95rem;
+    }
+
+    .mediaGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    figure{
+      margin:0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      background:#fff;
+    }
+    img{ width:100%; height:auto; border-radius: 12px; display:block; }
+    figcaption{ margin-top: 6px; font-size: 0.92rem; color: var(--muted); }
+
+    .artifactGrid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .artifactBox{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fff;
+    }
+    .artifactBox ul{ margin: 8px 0 0 0; padding-left: 18px; }
+
+    code{ background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
+    .eq{
+      display:block;
+      background:#f7f7f7;
+      border: 1px solid #e7e7e7;
+      border-radius: 12px;
+      padding: 10px 12px;
+      overflow-x:auto;
+      margin-top: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a class="toplink" href="../index.html">← Back to Home</a>
+
+    <header>
+      <h1>SLAC Orbit Fitting & Diagnostics</h1>
+      <p class="subtitle">Python • FACET-II BPM data • linear transport (R-matrices) • least-squares orbit fit • energy diagnostics from spectrometer residuals</p>
+
+      <div class="chips" aria-label="Highlights">
+        <div class="chip">Orbit fitting (LLS / pseudo-inverse)</div>
+        <div class="chip">Live model R-matrices (Bmad)</div>
+        <div class="chip">Diagnostics: energy deviation δ</div>
+        <div class="chip">Spectrometer BPM residual method</div>
+        <div class="chip">Feedback-ready runtime</div>
+      </div>
+    </header>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Project Summary</h2>
+        <p class="muted">
+          At SLAC FACET-II, I built a Python workflow to reconstruct electron-beam orbits from BPM (Beam Position Monitor)
+          readings using linear transport maps (R-matrices). The fitted orbit separates the betatron trajectory from dispersive
+          effects, enabling a diagnostics step that estimates beam energy deviation using spectrometer BPM residuals.
+        </p>
+
+        <ul>
+          <li><b>Orbit model:</b> linear transport between BPMs with R-matrices and a no-coupling assumption.</li>
+          <li><b>Fit method:</b> overdetermined system solved with least-squares / pseudo-inverse to estimate <code>(x0, x′0, δ0)</code>.</li>
+          <li><b>Diagnostics:</b> compute <code>δ</code> from residual <code>(x_meas − x_fit)</code> at high-dispersion spectrometer BPMs.</li>
+          <li><b>Use case:</b> supports energy feedback measurements (fast enough for control loops).</li>
+        </ul>
+
+        <div class="pillbar" aria-label="Quick links">
+          <!-- Update these paths to match where you store the files in your repo -->
+          <a href="../docs/slac/orbit_fitting_presentation_summer_2025.pdf" target="_blank" rel="noopener">Slides (PDF)</a>
+          <a href="../docs/slac/orbit_fitting_technical_note.pdf" target="_blank" rel="noopener">Technical note</a>
+          <a href="../docs/slac/finding_energy_deviation_from_residuals.pdf" target="_blank" rel="noopener">Energy deviation write-up</a>
+        </div>
+
+        <div class="callout">
+          <b>Diagnostics focus (short):</b> I use orbit fitting to predict the <i>betatron-only</i> position at a spectrometer BPM,
+          then use the dispersion <code>R16</code> to convert the residual into <code>δ</code> (relative energy error) and finally into <code>ΔE</code>.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Key Results / Targets</h2>
+        <table class="specs" aria-label="Project metrics table">
+          <tbody>
+            <tr>
+              <th scope="row">Machine / context</th>
+              <td>SLAC FACET-II (BPM-based orbit reconstruction)</td>
+            </tr>
+            <tr>
+              <th scope="row">Fit parameters</th>
+              <td><code>x0</code>, <code>x′0</code>, <code>δ0</code> (horizontal plane)</td>
+            </tr>
+            <tr>
+              <th scope="row">Diagnostics output</th>
+              <td><code>δ</code>, <code>ΔE = E_design · δ</code>, and % error</td>
+            </tr>
+            <tr>
+              <th scope="row">Spectrometer regions</th>
+              <td>DL10, BC11, BC14 (multi-point energy check)</td>
+            </tr>
+            <tr>
+              <th scope="row">Runtime goal</th>
+              <td>Feedback-ready (example result: ~1.5 ms reported in slides)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Diagnostics Method (Energy Deviation from Residuals)</h2>
+      <p class="muted">
+        After fitting upstream BPMs, I predict the expected betatron orbit at a spectrometer BPM. The difference between the
+        measured position and the fitted betatron prediction is treated as dispersive offset. Using dispersion <code>η = R16</code>,
+        the relative energy deviation is:
+      </p>
+
+      <div class="eq">δ = (x_meas − x_fit) / R16</div>
+
+      <p class="muted" style="margin-top:10px;">
+        Then I convert to energy offset using a nominal beam energy:
+        <code>ΔE = E_design · δ</code>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Figures</h2>
+      <p class="muted">Send me your picture and I’ll drop it in. For now, this is a placeholder.</p>
+
+      <div class="mediaGrid">
+        <figure>
+          <!-- Replace this src with your image path, e.g. ../assets/slac/orbit_layout.png -->
+          <img src="../assets/slac/PLACEHOLDER_orbit_image.png" alt="Orbit fitting / diagnostics figure (placeholder)" />
+          <figcaption>
+            Placeholder figure — replace with your screenshot (e.g., beamline layout, orbit fit plot, or energy feedback vs time).
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Artifacts</h2>
+      <div class="artifactGrid">
+        <div class="artifactBox">
+          <h3>Write-ups</h3>
+          <ul>
+            <li><a href="../docs/slac/orbit_fitting_technical_note.pdf" target="_blank" rel="noopener">Orbit fitting using linear maps (technical note)</a></li>
+            <li><a href="../docs/slac/finding_energy_deviation_from_residuals.pdf" target="_blank" rel="noopener">Finding δ from spectrometer BPM residuals</a></li>
+          </ul>
+        </div>
+
+        <div class="artifactBox">
+          <h3>Slides</h3>
+          <ul>
+            <li><a href="../docs/slac/orbit_fitting_presentation_summer_2025.pdf" target="_blank" rel="noopener">Orbit fitting presentation (Summer 2025)</a></li>
+          </ul>
+        </div>
+
+        <div class="artifactBox">
+          <h3>Code (optional)</h3>
+          <ul>
+            <li><span class="muted">Add later:</span> GitHub repo / notebook link</li>
+            <li><span class="muted">Add later:</span> CSV output example</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
