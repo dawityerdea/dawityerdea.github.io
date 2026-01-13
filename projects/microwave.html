@@ -82,6 +82,9 @@
       margin-top: 14px;
     }
 
+    /* For cards inside grid2, remove extra top margin */
+    .grid2 > .card{ margin-top: 0; }
+
     h2{ margin:0 0 10px 0; font-size: 1.25rem; letter-spacing: -0.01em; }
     h3{ margin:0 0 10px 0; font-size: 1.05rem; }
 
@@ -108,6 +111,7 @@
       color: #111;
     }
 
+    /* Specs table style (used for Design Targets) */
     .specs{
       width:100%;
       border-collapse: collapse;
@@ -125,6 +129,7 @@
     .specs th{
       background: #fafafa;
       width: 40%;
+      white-space: nowrap;
     }
     .specs tr:last-child td, .specs tr:last-child th{ border-bottom: none; }
 
@@ -273,6 +278,7 @@
       </div>
     </header>
 
+    <!-- ✅ Two-column section: Summary + Design Targets -->
     <div class="grid2">
       <div class="card">
         <h2>Project Summary</h2>
@@ -295,89 +301,38 @@
         </div>
       </div>
 
-<!-- ✅ Design Targets (COMPLETED) — paste this where you want the table to appear -->
-<section class="spec-card" id="design-targets">
-  <h2>Design Targets</h2>
-
-  <table class="spec-table" aria-label="Design targets table">
-    <tbody>
-      <tr>
-        <th scope="row">Band</th>
-        <td>2.0–3.0&nbsp;GHz</td>
-      </tr>
-      <tr>
-        <th scope="row">Passband ripple</th>
-        <td>0.3&nbsp;dB <span class="muted">(±0.1&nbsp;dB allowed)</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Return loss</th>
-        <td>&gt; 11&nbsp;dB <span class="muted">(S11 &lt; −11&nbsp;dB in passband)</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Insertion / excess loss</th>
-        <td>&lt; 0.5&nbsp;dB <span class="muted">(goal: minimize)</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Stopband rejection</th>
-        <td>&gt; 40&nbsp;dB for &lt; 2.2&nbsp;GHz and &gt; 2.7&nbsp;GHz</td>
-      </tr>
-      <tr>
-        <th scope="row">Validation goal</th>
-        <td>Validate with circuit + EM simulation and measured build evidence</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- ✅ CSS — paste this inside your existing <style> ... </style> block -->
-<style>
-  .spec-card{
-    background: var(--card, #fff);
-    border: 1px solid var(--border, #e6e6e6);
-    border-radius: var(--radius, 16px);
-    box-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,0.06));
-    padding: 22px;
-    margin: 18px 0;
-  }
-
-  .spec-card h2{
-    margin: 0 0 14px 0;
-    font-size: 22px;
-    letter-spacing: -0.2px;
-  }
-
-  .spec-table{
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 12px;
-  }
-
-  .spec-table th,
-  .spec-table td{
-    padding: 14px 14px;
-    vertical-align: top;
-    border-top: 1px solid var(--border, #e6e6e6);
-  }
-
-  .spec-table tr:first-child th,
-  .spec-table tr:first-child td{
-    border-top: none;
-  }
-
-  .spec-table th{
-    width: 38%;
-    text-align: left;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .muted{
-    color: var(--muted, #5a5a5a);
-    font-size: 0.95em;
-  }
-</style>
-
+      <div class="card" id="design-targets">
+        <h2>Design Targets</h2>
+        <table class="specs" aria-label="Design targets table">
+          <tbody>
+            <tr>
+              <th scope="row">Band</th>
+              <td>2.0–3.0&nbsp;GHz</td>
+            </tr>
+            <tr>
+              <th scope="row">Passband ripple</th>
+              <td>0.3&nbsp;dB <span class="muted">(±0.1&nbsp;dB allowed)</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Return loss</th>
+              <td>&gt; 11&nbsp;dB <span class="muted">(S11 &lt; −11&nbsp;dB in passband)</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Insertion / excess loss</th>
+              <td>&lt; 0.5&nbsp;dB <span class="muted">(goal: minimize)</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Stopband rejection</th>
+              <td>&gt; 40&nbsp;dB for &lt; 2.2&nbsp;GHz and &gt; 2.7&nbsp;GHz</td>
+            </tr>
+            <tr>
+              <th scope="row">Validation goal</th>
+              <td>Validate with circuit + EM simulation and measured build evidence</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     <div class="card">
       <h2>Artifacts</h2>
@@ -454,7 +409,6 @@
         // Page is /projects/... and photo folders are at repo root:
         const BASE = "../";
 
-        // ✅ Removed 03b_Software_Screencaps completely.
         const tree = [
           {
             title: "VNA_Measurements",
@@ -565,19 +519,21 @@
             const src = `${BASE}${fullPath}/${it.file}`;
 
             const fig = document.createElement("figure");
+
+            const cap = document.createElement("figcaption");
+            cap.textContent = it.caption;
+
             const img = document.createElement("img");
             img.src = src;
             img.alt = it.caption;
             img.loading = "lazy";
             img.addEventListener("click", () => openLightbox(src, it.caption));
 
+            // ✅ FIX: cap exists before onerror uses it (prevents ReferenceError)
             img.onerror = () => {
               img.style.display = "none";
               cap.textContent = `Missing (404): ${fullPath}/${it.file}`;
             };
-
-            const cap = document.createElement("figcaption");
-            cap.textContent = it.caption;
 
             fig.appendChild(img);
             fig.appendChild(cap);
