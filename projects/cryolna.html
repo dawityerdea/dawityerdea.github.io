@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cryo Sub-1-dB NF CMOS LNA (CryoLNA) | Dawit Yerdea</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:34px 18px;max-width:1040px}
+    a{color:#0b57d0;text-decoration:none} a:hover{text-decoration:underline}
+    .card{border:1px solid #e6e6e6;border-radius:16px;padding:16px;margin:14px 0}
+    .muted{color:#555}
+    .pill a{display:inline-block;margin:8px 10px 0 0;padding:10px 12px;border:1px solid #ccc;border-radius:999px}
+  </style>
+</head>
+<body>
+  <a href="../index.html">← Back to Home</a>
+
+  <h1>Cryo Sub-1-dB NF CMOS LNA (CryoLNA)</h1>
+  <p class="muted">Cadence/SpectreRF • Gain / NF / stability • reproduction study</p>
+
+  <div class="card">
+    <b>Status: Under development</b>
+    <p class="muted">
+      This project is in progress. I’m reproducing a cryogenic CMOS LNA by rebuilding key derivations,
+      validating them with analysis scripts, and then reproducing circuit-level results in Cadence/SpectreRF.
+      The full code and internal workbench are kept private while development is ongoing.
+    </p>
+
+    <b>Work completed so far</b>
+    <ul>
+      <li>Derived effective transconductance expressions and checked frequency behavior.</li>
+      <li>Analyzed the coupled/transformer tank (resonances, splitting behavior).</li>
+      <li>Started input match analysis (Zin/S11) and parameter sensitivity.</li>
+    </ul>
+
+    <b>Next steps</b>
+    <ul>
+      <li>Reproduce S-parameters and NF in SpectreRF and compare against the reference.</li>
+      <li>Stability checks (K/μ), bias sweeps, and sensitivity study.</li>
+      <li>Track schematic vs. post-layout deltas later.</li>
+    </ul>
+
+    <div class="pill">
+      <a href="../CryoLNA/Project.pdf" target="_blank" rel="noopener">View reference paper (PDF)</a>
+      <a href="../CryoLNA/project_derivations.pdf" target="_blank" rel="noopener">View derivations (PDF)</a>
+    </div>
+  </div>
+</body>
+</html>
