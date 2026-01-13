@@ -142,7 +142,7 @@
     }
     .artifactBox ul{ margin: 8px 0 0 0; padding-left: 18px; }
 
-    /* Folder UI */
+    /* Build Photos toggle button */
     .toggleBtn{
       display:inline-flex;
       align-items:center;
@@ -160,6 +160,7 @@
       box-shadow: 0 0 0 3px rgba(11,87,208,0.12);
     }
 
+    /* Folder UI */
     details.folder{
       margin-top: 12px;
       border: 1px solid var(--border);
@@ -250,6 +251,8 @@
       background: #fafafa;
       font-size: 0.95rem;
     }
+
+    code{ background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
   </style>
 </head>
 
@@ -353,8 +356,8 @@
         <div id="folderTree"></div>
 
         <div class="note">
-          If images still show broken icons: open one image URL directly in your browser (example:
-          <code>/VNA_Measurements/54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg</code>). If it’s 404, the photo folders are not uploaded/committed to GitHub yet.
+          If an image is broken: open its URL directly (example:
+          <code>/VNA_Measurements/54B9A322-A0C7-4370-A60E-4AA6D2FB01BB.jpeg</code>). If it’s 404, it’s not uploaded to GitHub yet.
         </div>
       </div>
     </div>
@@ -375,14 +378,10 @@
 
     <script>
       (() => {
-        // This page is /projects/microwave.html, and your photo folders are at repo root.
-        // So "../" correctly points from /projects/ back to repo root.
+        // Page is /projects/... and photo folders are at repo root:
         const BASE = "../";
 
-        // Folder structure you showed:
-        // - VNA_Measurements (4 photos)
-        // - PCB_Boards/02a..., 02b..., 02c...
-        // - Fabrication_Process/03a..., 03b..., 03c...
+        // ✅ Removed 03b_Software_Screencaps completely.
         const tree = [
           {
             title: "VNA_Measurements",
@@ -436,20 +435,7 @@
                 path: "03a_Milling_Machine",
                 items: [
                   { file: "B7AEFEBE-38AD-4D96-8FFF-770D1B40804C.jpeg", caption: "Milling machine setup / workstation" },
-                  { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Milling process photo" }
-                ]
-              },
-              {
-                title: "03b_Software_Screencaps",
-                path: "03b_Software_Screencaps",
-                items: [
-                  { file: "16238247-D7A3-4373-AD2A-A936E2B614E1.jpeg", caption: "CAM workflow (screen capture)" },
-                  { file: "1CAA4085-B1F8-4D11-8AFF-72421536F29C.jpeg", caption: "Import/setup (screen capture)" },
-                  { file: "3ECDBA2A-06B3-4399-8D73-DCDA447FBBFE.jpeg", caption: "Layer mapping (screen capture)" },
-                  { file: "7512A7C7-C8D3-473D-BA83-4322758BE8F4.jpeg", caption: "Toolpath preview (screen capture)" },
-                  { file: "7BFAD906-C82F-4CB8-9B16-10AB82D7D719.jpeg", caption: "Copper preview (screen capture)" },
-                  { file: "EA498C68-0D11-4208-A011-5F587D00F028.jpeg", caption: "Alignment/selection (screen capture)" },
-                  { file: "F6DE2258-C3AF-4C56-A742-3F0EEB37EFCC.jpeg", caption: "CAM view (screen capture)" }
+                  { file: "C2302B3C-7AF1-4DAF-B365-40176B7DAF6B.jpeg", caption: "Machine / process photo" }
                 ]
               },
               {
@@ -463,7 +449,7 @@
           }
         ];
 
-        // Build Photos toggle (button)
+        // Build Photos toggle
         const toggleBtn = document.getElementById("buildToggle");
         const panel = document.getElementById("buildPanel");
         toggleBtn.addEventListener("click", () => {
@@ -495,7 +481,7 @@
         lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
 
-        // Render helpers
+        // Render
         const root = document.getElementById("folderTree");
 
         function makeGallery(items, fullPath) {
@@ -512,11 +498,9 @@
             img.loading = "lazy";
             img.addEventListener("click", () => openLightbox(src, it.caption));
 
-            // Helpful debug if a file path is wrong:
             img.onerror = () => {
               img.style.display = "none";
-              const cap = fig.querySelector("figcaption");
-              if (cap) cap.textContent = `Missing (404): ${fullPath}/${it.file}`;
+              cap.textContent = `Missing (404): ${fullPath}/${it.file}`;
             };
 
             const cap = document.createElement("figcaption");
@@ -539,7 +523,6 @@
 
           const summary = document.createElement("summary");
           summary.textContent = node.title;
-
           details.appendChild(summary);
 
           if (node.items && node.items.length) {
