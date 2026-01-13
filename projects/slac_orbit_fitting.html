@@ -130,32 +130,6 @@
     }
     .specs tr:last-child td, .specs tr:last-child th{ border-bottom: none; }
 
-    .callout{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border: 1px dashed #d8d8d8;
-      border-radius: 12px;
-      color: var(--muted);
-      background: #fafafa;
-      font-size: 0.95rem;
-    }
-
-    .mediaGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    figure{
-      margin:0;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px;
-      background:#fff;
-    }
-    img{ width:100%; height:auto; border-radius: 12px; display:block; }
-    figcaption{ margin-top: 6px; font-size: 0.92rem; color: var(--muted); }
-
     .artifactGrid{
       display:grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -170,7 +144,6 @@
     }
     .artifactBox ul{ margin: 8px 0 0 0; padding-left: 18px; }
 
-    code{ background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
     .eq{
       display:block;
       background:#f7f7f7;
@@ -182,6 +155,8 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 0.95rem;
     }
+
+    code{ background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
   </style>
 </head>
 
@@ -191,14 +166,14 @@
 
     <header>
       <h1>SLAC Orbit Fitting & Diagnostics</h1>
-      <p class="subtitle">Python • FACET-II BPM data • linear transport (R-matrices) • least-squares orbit fit • energy diagnostics from spectrometer residuals</p>
+      <p class="subtitle">Python • BPM data analysis • linear transport (R-matrix) • orbit reconstruction • energy diagnostics from spectrometer residuals</p>
 
       <div class="chips" aria-label="Highlights">
-        <div class="chip">Orbit fitting (LLS / pseudo-inverse)</div>
-        <div class="chip">Live model R-matrices (Bmad)</div>
-        <div class="chip">Diagnostics: energy deviation δ</div>
-        <div class="chip">Spectrometer BPM residual method</div>
-        <div class="chip">Feedback-ready runtime</div>
+        <div class="chip">Orbit fitting (least-squares)</div>
+        <div class="chip">R-matrix transport model</div>
+        <div class="chip">BPM residual diagnostics</div>
+        <div class="chip">Energy deviation δ</div>
+        <div class="chip">Diagnostics workflow</div>
       </div>
     </header>
 
@@ -206,54 +181,55 @@
       <div class="card">
         <h2>Project Summary</h2>
         <p class="muted">
-          At SLAC FACET-II, I built a Python workflow to reconstruct electron-beam orbits from BPM (Beam Position Monitor)
-          readings using linear transport maps (R-matrices). The fitted orbit separates the betatron trajectory from dispersive
-          effects, enabling a diagnostics step that estimates beam energy deviation using spectrometer BPM residuals.
+          During my SLAC FACET-II internship, I worked on orbit fitting using BPM measurements and a linear transport model.
+          The workflow reconstructs the upstream orbit using least-squares fitting, then uses residual position at spectrometer
+          BPMs to estimate relative energy deviation.
         </p>
 
         <ul>
-          <li><b>Orbit model:</b> linear transport between BPMs with R-matrices and a no-coupling assumption.</li>
-          <li><b>Fit method:</b> overdetermined system solved with least-squares / pseudo-inverse to estimate <code>(x0, x′0, δ0)</code>.</li>
-          <li><b>Diagnostics:</b> compute <code>δ</code> from residual <code>(x_meas − x_fit)</code> at high-dispersion spectrometer BPMs.</li>
-          <li><b>Use case:</b> supports energy feedback measurements (fast enough for control loops).</li>
+          <li><b>Input:</b> BPM position data across multiple beamline sections.</li>
+          <li><b>Model:</b> linear transport using an R-matrix map between BPMs (horizontal plane).</li>
+          <li><b>Fit:</b> solve an overdetermined system by least-squares / pseudo-inverse to estimate the initial state.</li>
+          <li><b>Diagnostics:</b> convert spectrometer BPM residuals into <code>δ</code> (relative energy error).</li>
         </ul>
 
         <div class="pillbar" aria-label="Quick links">
-          <!-- Update these paths to match where you store the files in your repo -->
-          <a href="../docs/slac/orbit_fitting_presentation_summer_2025.pdf" target="_blank" rel="noopener">Slides (PDF)</a>
-          <a href="../docs/slac/orbit_fitting_technical_note.pdf" target="_blank" rel="noopener">Technical note</a>
-          <a href="../docs/slac/finding_energy_deviation_from_residuals.pdf" target="_blank" rel="noopener">Energy deviation write-up</a>
-        </div>
-
-        <div class="callout">
-          <b>Diagnostics focus (short):</b> I use orbit fitting to predict the <i>betatron-only</i> position at a spectrometer BPM,
-          then use the dispersion <code>R16</code> to convert the residual into <code>δ</code> (relative energy error) and finally into <code>ΔE</code>.
+          <!-- These links match your CURRENT uploaded filenames (as shown in your repo screenshot). -->
+          <a href="../orbit_fitting_level2.pdf" target="_blank" rel="noopener">Orbit fitting (PDF)</a>
+          <a href="../orbit_fitting_notes-4%20(2).pdf" target="_blank" rel="noopener">Notes (PDF)</a>
+          <a href="../orbit%20fitting%20presentation%20summer%202025.pptx" target="_blank" rel="noopener">Presentation (PPTX)</a>
         </div>
       </div>
 
       <div class="card">
-        <h2>Key Results / Targets</h2>
-        <table class="specs" aria-label="Project metrics table">
+        <h2>Diagnostics Method (Energy from Residuals)</h2>
+        <p class="muted">
+          After fitting upstream BPMs, I predict the betatron-only position at a spectrometer BPM and compute the residual:
+        </p>
+
+        <div class="eq">x_res = x_meas − x_fit</div>
+
+        <p class="muted" style="margin-top:10px;">
+          In a dispersive region, the residual is related to energy deviation. Using dispersion <code>η</code> (often from <code>R16</code>):
+        </p>
+
+        <div class="eq">δ ≈ x_res / η</div>
+
+        <p class="muted" style="margin-top:10px;">
+          Convert to energy offset using a nominal beam energy:
+        </p>
+
+        <div class="eq">ΔE = E_nominal · δ</div>
+
+        <table class="specs" aria-label="BPM list">
           <tbody>
             <tr>
-              <th scope="row">Machine / context</th>
-              <td>SLAC FACET-II (BPM-based orbit reconstruction)</td>
+              <th scope="row">Example spectrometer BPMs</th>
+              <td><code>BPM10731</code>, <code>BPM11333</code>, <code>BPM14801</code></td>
             </tr>
             <tr>
-              <th scope="row">Fit parameters</th>
-              <td><code>x0</code>, <code>x′0</code>, <code>δ0</code> (horizontal plane)</td>
-            </tr>
-            <tr>
-              <th scope="row">Diagnostics output</th>
-              <td><code>δ</code>, <code>ΔE = E_design · δ</code>, and % error</td>
-            </tr>
-            <tr>
-              <th scope="row">Spectrometer regions</th>
+              <th scope="row">Sections used</th>
               <td>DL10, BC11, BC14 (multi-point energy check)</td>
-            </tr>
-            <tr>
-              <th scope="row">Runtime goal</th>
-              <td>Feedback-ready (example result: ~1.5 ms reported in slides)</td>
             </tr>
           </tbody>
         </table>
@@ -261,59 +237,20 @@
     </div>
 
     <div class="card">
-      <h2>Diagnostics Method (Energy Deviation from Residuals)</h2>
-      <p class="muted">
-        After fitting upstream BPMs, I predict the expected betatron orbit at a spectrometer BPM. The difference between the
-        measured position and the fitted betatron prediction is treated as dispersive offset. Using dispersion <code>η = R16</code>,
-        the relative energy deviation is:
-      </p>
-
-      <div class="eq">δ = (x_meas − x_fit) / R16</div>
-
-      <p class="muted" style="margin-top:10px;">
-        Then I convert to energy offset using a nominal beam energy:
-        <code>ΔE = E_design · δ</code>.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>Figures</h2>
-      <p class="muted">Send me your picture and I’ll drop it in. For now, this is a placeholder.</p>
-
-      <div class="mediaGrid">
-        <figure>
-          <!-- Replace this src with your image path, e.g. ../assets/slac/orbit_layout.png -->
-          <img src="../assets/slac/PLACEHOLDER_orbit_image.png" alt="Orbit fitting / diagnostics figure (placeholder)" />
-          <figcaption>
-            Placeholder figure — replace with your screenshot (e.g., beamline layout, orbit fit plot, or energy feedback vs time).
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Artifacts</h2>
+      <h2>Documents</h2>
       <div class="artifactGrid">
         <div class="artifactBox">
-          <h3>Write-ups</h3>
+          <h3>PDFs</h3>
           <ul>
-            <li><a href="../docs/slac/orbit_fitting_technical_note.pdf" target="_blank" rel="noopener">Orbit fitting using linear maps (technical note)</a></li>
-            <li><a href="../docs/slac/finding_energy_deviation_from_residuals.pdf" target="_blank" rel="noopener">Finding δ from spectrometer BPM residuals</a></li>
+            <li><a href="../orbit_fitting_level2.pdf" target="_blank" rel="noopener">orbit_fitting_level2.pdf</a></li>
+            <li><a href="../orbit_fitting_notes-4%20(2).pdf" target="_blank" rel="noopener">orbit_fitting_notes-4 (2).pdf</a></li>
           </ul>
         </div>
 
         <div class="artifactBox">
-          <h3>Slides</h3>
+          <h3>Presentation</h3>
           <ul>
-            <li><a href="../docs/slac/orbit_fitting_presentation_summer_2025.pdf" target="_blank" rel="noopener">Orbit fitting presentation (Summer 2025)</a></li>
-          </ul>
-        </div>
-
-        <div class="artifactBox">
-          <h3>Code (optional)</h3>
-          <ul>
-            <li><span class="muted">Add later:</span> GitHub repo / notebook link</li>
-            <li><span class="muted">Add later:</span> CSV output example</li>
+            <li><a href="../orbit%20fitting%20presentation%20summer%202025.pptx" target="_blank" rel="noopener">orbit fitting presentation summer 2025.pptx</a></li>
           </ul>
         </div>
       </div>
