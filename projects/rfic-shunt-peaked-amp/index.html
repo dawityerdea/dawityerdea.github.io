@@ -3,39 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RFIC Design | Dawit Yerdea</title>
+  <title>Shunt-Peaked CMOS Amplifier | Dawit Yerdea</title>
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:34px 18px;max-width:980px}
     a{color:#0b57d0;text-decoration:none} a:hover{text-decoration:underline}
     .muted{color:#555}
     .card{border:1px solid #e6e6e6;border-radius:16px;padding:16px;margin:14px 0}
+    .btns a{display:inline-block;border:1px solid #e6e6e6;border-radius:999px;padding:10px 12px;margin-right:10px}
   </style>
 </head>
 <body>
-  <a href="../index.html">← Back to Home</a>
-  <h1>Radio Frequency Integrated Circuit (RFIC) Design</h1>
-  <p class="muted">Cadence/SpectreRF • NF, gain, stability • design notes + results</p>
+  <a href="/projects/rfic.html">← Back to RFIC</a>
+
+  <h1>CMOS Shunt-Peaked Amplifier</h1>
+  <p class="muted">Spec-driven design • LD sweep • gain/BW/power extraction • PVT corner analysis</p>
 
   <div class="card">
-    <b>Shunt-Peaked CMOS Amplifier Verification</b>
-    <p class="muted">Spec-driven tuning (LD sweep) • gain/BW/power extraction • PVT corner analysis</p>
-    <p><a href="rfic-shunt-peaked-amp/">View project →</a></p>
-    <p>
-      <a href="rfic-shunt-peaked-amp/shunt_peaked_amp_report.pdf" target="_blank" rel="noopener">
-        View report (PDF) →
-      </a>
+    <b>Status:</b> Report ready; polishing for portfolio.
+    <p class="muted">
+      This page summarizes my spec-driven verification flow in Cadence: LD tuning to hit the 3 dB peaking target,
+      extracting gain/BW using calculator expressions, and validating robustness across PVT corners while meeting power limits.
     </p>
-  </div>
 
-  <div class="card">
-    <b>2.4-GHz Cascode CMOS LNA Design (SpectreRF)</b>
-    <p class="muted">S-parameters • matching • NF • P1dB/IIP3 • spec verification at 2.4–2.48 GHz</p>
-    <p><a href="rfic-24g-lna/">View project →</a></p>
-    <p>
-      <a href="rfic-24g-lna/cascode_lna_report.pdf" target="_blank" rel="noopener">
-        View report (PDF) →
-      </a>
-    </p>
+    <div class="btns">
+      <a href="./shunt_peaked_amp_report.pdf" target="_blank" rel="noopener">View report (PDF) →</a>
+    </div>
   </div>
 </body>
 </html>
