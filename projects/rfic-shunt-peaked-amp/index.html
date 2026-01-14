@@ -3,31 +3,118 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shunt-Peaked CMOS Amplifier | Dawit Yerdea</title>
+  <title>CMOS Shunt-Peaked Amplifier | Dawit Yerdea</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:34px 18px;max-width:980px}
-    a{color:#0b57d0;text-decoration:none} a:hover{text-decoration:underline}
-    .muted{color:#555}
-    .card{border:1px solid #e6e6e6;border-radius:16px;padding:16px;margin:14px 0}
-    .btns a{display:inline-block;border:1px solid #e6e6e6;border-radius:999px;padding:10px 12px;margin-right:10px}
+    :root{
+      --text:#111;
+      --muted:#555;
+      --border:#e6e6e6;
+      --link:#0b57d0;
+      --radius:16px;
+    }
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      margin:0;
+      padding:34px 18px;
+      max-width:980px;
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .muted{color:var(--muted)}
+    .card{
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+      margin:16px 0;
+    }
+    .toplink{display:inline-block;margin-bottom:14px}
+    h1{margin:10px 0 6px}
+    h2{margin:0 0 10px;font-size:18px}
+    ul{margin:10px 0 0 18px}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 820px){
+      .grid{grid-template-columns: 1fr;}
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    th, td{
+      text-align:left;
+      padding:10px 8px;
+      border-bottom:1px solid var(--border);
+      vertical-align:top;
+    }
+    th{width:42%}
+    .btnrow{margin-top:14px}
+    .btn{
+      display:inline-block;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      margin-right:10px;
+      margin-top:8px;
+    }
   </style>
 </head>
 <body>
-  <a href="/projects/rfic.html">← Back to RFIC</a>
 
-  <h1>CMOS Shunt-Peaked Amplifier</h1>
-  <p class="muted">Spec-driven design • LD sweep • gain/BW/power extraction • PVT corner analysis</p>
+  <a class="toplink" href="../rfic.html">← Back to RFIC</a>
+
+  <h1>CMOS Shunt-Peaked Amplifier Verification</h1>
+  <p class="muted">Cadence/Spectre • AC analysis • LD sweep • gain/BW extraction • PVT robustness</p>
 
   <div class="card">
-    <b>Status:</b> Report ready; polishing for portfolio.
-    <p class="muted">
-      This page summarizes my spec-driven verification flow in Cadence: LD tuning to hit the 3 dB peaking target,
-      extracting gain/BW using calculator expressions, and validating robustness across PVT corners while meeting power limits.
-    </p>
+    <div class="grid">
+      <div>
+        <h2>Project Summary</h2>
+        <p class="muted">
+          In this project, I designed and verified a CMOS shunt-peaked amplifier to meet target
+          gain, bandwidth, and power dissipation requirements. I used an <b>LD sweep</b> to tune the
+          shunt-peaking behavior and ran <b>PVT corner</b> simulations to evaluate robustness.
+          Across corners, the amplifier maintained the required frequency-domain behavior while
+          meeting power constraints.
+        </p>
 
-    <div class="btns">
-      <a href="./shunt_peaked_amp_report.pdf" target="_blank" rel="noopener">View report (PDF) →</a>
+        <ul>
+          <li><b>Spec-driven tuning:</b> Swept the shunt-peaking inductor (LD) to hit the target peaking and bandwidth.</li>
+          <li><b>Automated measurements:</b> Extracted gain at specific frequencies, 3-dB bandwidth, and power using ADE expressions.</li>
+          <li><b>Corner verification:</b> Compared gain/BW variation across PVT while keeping power within limits.</li>
+          <li><b>Debugging workflow:</b> Resolved “waveform vs point” evaluation issues and validated calculator outputs.</li>
+        </ul>
+
+        <div class="btnrow">
+          <!-- Put your PDF in this same folder and name it exactly like below -->
+          <a class="btn" href="shunt_peaked_amp_report.pdf" target="_blank" rel="noopener">View report (PDF) →</a>
+        </div>
+      </div>
+
+      <div>
+        <h2>Design Targets</h2>
+        <table>
+          <tr><th>Objective</th><td>Meet gain / bandwidth / power specs with shunt-peaking</td></tr>
+          <tr><th>Method</th><td>AC response + LD sweep + PVT corners</td></tr>
+          <tr><th>Key outputs</th><td>Gain, 3-dB bandwidth, peaking level, PDC</td></tr>
+          <tr><th>Verification</th><td>Compare against targets and confirm across corners</td></tr>
+        </table>
+
+        <h2 style="margin-top:14px;">What I Learned</h2>
+        <table>
+          <tr><th>Cadence skills</th><td>dB20() gain, cross() bandwidth, point vs waveform handling</td></tr>
+          <tr><th>Design insight</th><td>LD tuning trade-offs vs gain/BW and device sizing (nfinger/Multi)</td></tr>
+          <tr><th>Robustness</th><td>How corners shift gain/BW and how to check margins</td></tr>
+        </table>
+      </div>
     </div>
   </div>
+
 </body>
 </html>
