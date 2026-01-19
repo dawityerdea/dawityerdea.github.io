@@ -7,34 +7,51 @@
 
   <style>
     :root{
-      --bg:#f3f4f6;
+      --bg:#f3f4f6;       /* light gray page background */
+      --card:#ffffff;     /* white cards */
       --text:#111;
       --muted:#555;
       --border:#e6e6e6;
-      --card:#ffffff;
       --link:#0b57d0;
-      --chip:#eef2ff;
-      --shadow:0 10px 30px rgba(0,0,0,0.08);
-      --radius:16px;
-      --max:980px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 18px;
+      --maxw: 980px;
     }
+
+    *{ box-sizing:border-box; }
 
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       margin:0;
-      padding: 34px 18px;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.55;
+      line-height:1.55;
     }
 
-    .wrap{ max-width: var(--max); margin: 0 auto; }
+    .wrap{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 34px 18px 44px;
+    }
 
-    a{ color: var(--link); text-decoration: none; }
-    a:hover{ text-decoration: underline; }
+    a{ color: var(--link); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    h1{
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    h2{
+      margin: 26px 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
     .muted{ color: var(--muted); }
 
-    /* HERO */
     .hero{
       display:flex;
       gap: 18px;
@@ -54,13 +71,6 @@
       object-fit: cover;
       background: #eee;
       flex: 0 0 auto;
-    }
-
-    h1{
-      margin: 0;
-      font-size: 34px;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
     }
 
     .subtitle{
@@ -104,15 +114,8 @@
       font-size: 13px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: var(--chip);
+      background: #eef2ff;
       border: 1px solid rgba(0,0,0,0.04);
-    }
-
-    /* SECTIONS */
-    h2{
-      margin: 26px 0 10px;
-      font-size: 18px;
-      letter-spacing: -0.01em;
     }
 
     .card{
@@ -121,6 +124,7 @@
       padding: 16px;
       background: var(--card);
       box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+      margin: 14px 0;
     }
 
     .grid{
@@ -158,6 +162,14 @@
       background:#fff;
     }
 
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    ul{ margin: 8px 0 0 18px; }
+
     .footer{
       margin-top: 28px;
       padding-top: 18px;
@@ -171,6 +183,9 @@
       justify-content: space-between;
     }
 
+    @media (max-width: 720px){
+      .twoCol{ grid-template-columns: 1fr; }
+    }
     @media (max-width: 560px){
       .hero{ align-items:flex-start; }
       .avatar{ width: 96px; height: 96px; }
@@ -184,7 +199,7 @@
 
     <!-- HERO -->
     <div class="hero">
-      <!-- Photo is in repo root (same folder as index.html) -->
+      <!-- Photo is in repo ROOT (same level as index.html) -->
       <img class="avatar" src="profile.jpeg" alt="Portrait of Dawit Yerdea" />
 
       <div>
@@ -193,12 +208,15 @@
           Hardware Electrical Engineer • Analog / RF • Quantum Hardware • Test & Lab Debug • PCB
         </p>
 
+        <!-- Top buttons (removed extra project buttons) -->
         <div class="btnrow">
           <a class="btn primary" href="myResume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
-          <a class="btn" href="projects/rfic.html">RFIC Projects</a>
-          <a class="btn" href="projects/3d-transmon-cavity-cqed/">3D Transmon cQED</a>
+          <a class="btn" href="#projects">Projects</a>
           <a class="btn" href="mailto:dawit.yerdea@sjsu.edu">Email</a>
-          <a class="btn" href="https://www.linkedin.com/in/dawit-yerdea/" target="_blank" rel="noopener">LinkedIn</a>
+
+          <!-- FIXED LinkedIn link -->
+          <a class="btn" href="https://www.linkedin.com/in/dawit-yerdea-728a32235/" target="_blank" rel="noopener">LinkedIn</a>
+
           <a class="btn" href="https://github.com/dawityerdea" target="_blank" rel="noopener">GitHub</a>
         </div>
 
@@ -207,25 +225,48 @@
           <span class="chip">HFSS / Qiskit Metal</span>
           <span class="chip">S-parameters / NF / Stability</span>
           <span class="chip">Python (analysis + automation)</span>
-          <span class="chip">VNA / RF Lab</span>
+          <span class="chip">Debugging / Lab bring-up</span>
+          <span class="chip">Test & Measurement</span>
         </div>
       </div>
     </div>
 
-    <!-- ABOUT -->
+    <!-- FOCUS -->
     <h2>Focus</h2>
     <div class="card">
       <p class="meta" style="margin:0">
-        I build and verify RF/analog and quantum-hardware systems with a spec-driven workflow:
-        simulation → measurement mindset → clean documentation. I’m especially interested in RFIC front-ends,
-        noise/linearity trade-offs, and EM-driven design for superconducting qubits (cQED).
+        I build and verify electrical systems using a spec-driven workflow: simulation → measurement mindset → clean documentation.
+        My experience spans RF/analog front-ends, EM/eigenmode modeling for superconducting qubits (cQED), and hands-on lab debugging
+        (bring-up, instrumentation, and root-cause analysis). I’m also open to broader Electrical Engineering roles—including test,
+        validation, hardware integration, and product-level debugging—where strong measurement and troubleshooting skills matter.
       </p>
     </div>
 
-    <!-- PROJECTS -->
-    <h2>Featured Projects</h2>
-    <div class="grid">
+    <!-- SKILLS -->
+    <h2>Skills</h2>
+    <div class="twoCol">
+      <div class="card">
+        <b>Hardware & RF</b>
+        <ul class="meta">
+          <li>RFIC simulation (SpectreRF): S-params, NF, stability, linearity</li>
+          <li>Matching & spec verification (gain/return loss/noise/linearity)</li>
+          <li>ADS/Momentum workflow for RF/microwave layouts & validation</li>
+        </ul>
+      </div>
+      <div class="card">
+        <b>Debugging & Test</b>
+        <ul class="meta">
+          <li>Lab bring-up, measurement setup, and data sanity checks</li>
+          <li>Root-cause debugging: isolate, reproduce, verify fixes</li>
+          <li>Python tooling for analysis, plots, and automation</li>
+        </ul>
+      </div>
+    </div>
 
+    <!-- PROJECTS -->
+    <h2 id="projects">Featured Projects</h2>
+
+    <div class="grid">
       <div class="card">
         <b>Cryo Sub-1-dB NF CMOS LNA (CryoLNA)</b>
         <p class="meta">Cadence/SpectreRF • gain/NF/stability • design notes</p>
@@ -266,7 +307,6 @@
           <a class="pill" href="projects/3d-transmon-cavity-cqed/">View project →</a>
         </div>
       </div>
-
     </div>
 
     <!-- FOOTER -->
@@ -275,7 +315,7 @@
       <div>
         <a href="mailto:dawit.yerdea@sjsu.edu">dawit.yerdea@sjsu.edu</a>
         <span class="muted"> • </span>
-        <a href="https://www.linkedin.com/in/dawit-yerdea/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/dawit-yerdea-728a32235/" target="_blank" rel="noopener">LinkedIn</a>
         <span class="muted"> • </span>
         <a href="https://github.com/dawityerdea" target="_blank" rel="noopener">GitHub</a>
       </div>
