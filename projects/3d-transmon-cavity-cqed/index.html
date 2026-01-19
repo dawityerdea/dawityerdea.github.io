@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Transmon and Cavity cQED | Dawit Yerdea</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111;
+      --muted:#555;
+      --border:#e6e6e6;
+      --link:#0b57d0;
+      --card:#fff;
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --radius: 16px;
+    }
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 34px 18px;
+      max-width: 980px;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+    a{ color: var(--link); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+    .muted{ color: var(--muted); }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin: 14px 0;
+      box-shadow: var(--shadow);
+    }
+    .btns a{
+      display: inline-block;
+      margin: 10px 10px 0 0;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+    }
+    ul{ margin: 8px 0 0 18px; }
+    table{ border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td{ border-bottom: 1px solid var(--border); padding: 10px 8px; text-align: left; vertical-align: top; }
+    th{ background: #fafafa; }
+    .topbar{ margin-bottom: 10px; }
+    .kpi{ display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .note{ margin-top: 10px; }
+    @media (min-width: 820px){
+      .kpi{ grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- IMPORTANT:
+       Place this file at: /projects/3d-transmon-cavity-cqed/index.html
+       Place PDFs in the SAME folder with these EXACT names:
+         - cqed_project1.pdf
+         - cqed_project2.pdf
+  -->
+  <div class="topbar">
+    <a href="../../index.html">← Back to Home</a>
+  </div>
+
+  <h1>3D Transmon and Cavity cQED (HFSS / Qiskit Metal)</h1>
+  <p class="muted">HFSS eigenmode analysis • field visualization • Q factor extraction • geometry sensitivity (sapphire + JJ placement)</p>
+
+  <div class="card">
+    <b>Project overview</b>
+    <p class="muted">
+      This work documents a two-part workflow for modeling a 3D cavity coupled to a transmon-style Josephson element.
+      <b>Project 1</b> builds the baseline cavity model and validates the eigenmode simulation setup. <b>Project 2</b> builds directly
+      on Project 1 by modifying the sapphire and Josephson-junction placement, then comparing how mode frequencies, field localization,
+      and Q change with geometry.
+    </p>
+
+    <div class="btns">
+      <a href="cqed_project1.pdf" target="_blank" rel="noopener">View Project 1 report (PDF) →</a>
+      <a href="cqed_project2.pdf" target="_blank" rel="noopener">View Project 2 report (PDF) →</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <b>What I did (portfolio highlights)</b>
+    <ul>
+      <li>Set up HFSS eigenmode simulation (multiple modes, convergence tuning, pass control).</li>
+      <li>Built a baseline cavity + transmon-style geometry using Qiskit Metal → exported to HFSS.</li>
+      <li>Compared eigenmode frequencies between baseline geometry (Project 1) and modified geometry (Project 2).</li>
+      <li>Used E-field plots (top + side views) to interpret where energy concentrates (cavity vs. qubit region).</li>
+      <li>Extracted Q from EigenQ results and interpreted “high-Q storage-like” vs “lossy/readout-like” behavior.</li>
+      <li>Documented practical troubleshooting (convergence sensitivity to max passes) and next steps for nonlinear analysis.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <b>Key results (from Project 2)</b>
+    <p class="muted">
+      After moving the sapphire and Josephson junction location, the two dominant eigenmodes show distinct behavior:
+      Mode 1 appears high-Q (storage/qubit-like), while Mode 2 is much lower-Q (more lossy/readout-like).
+    </p>
+
+    <div class="kpi">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Mode 1</th>
+              <th>Mode 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Resonant frequency (example pass)</td>
+              <td>~6.2977 GHz</td>
+              <td>~7.3358 GHz</td>
+            </tr>
+            <tr>
+              <td>Q factor (example pass)</td>
+              <td>~8.4×10<sup>7</sup></td>
+              <td>~9.84×10<sup>3</sup></td>
+            </tr>
+            <tr>
+              <td>Mode spacing</td>
+              <td colspan="2">Δf ≈ 1.038 GHz (qualitative indicator for coupling / hybridization changes)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <b>Notes / next steps</b>
+        <p class="muted" style="margin:8px 0 0">
+          Extracting a numeric cross-Kerr (χ) or qubit-cavity coupling (g) generally requires nonlinear modeling
+          (e.g., pyEPR / Josephson nonlinearity). The current portfolio focus is eigenmodes, E-field overlap intuition,
+          and sensitivity of f/Q to geometry changes.
+        </p>
+        <ul>
+          <li>Run additional geometry sweeps (sapphire position, JJ location) and plot f and Q trends.</li>
+          <li>Export to a nonlinear workflow (pyEPR) to estimate participation and χ.</li>
+          <li>Connect simulation outcomes to a target readout/storage mode design goal.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
