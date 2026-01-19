@@ -4,63 +4,290 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dawit Yerdea | Hardware Electrical Engineering</title>
+
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 40px 18px; max-width: 900px; }
-    h1 { margin: 0 0 8px; }
-    p { margin: 8px 0; }
-    .links a { display: inline-block; margin-right: 10px; margin-top: 8px; padding: 10px 12px; border: 1px solid #ccc; border-radius: 999px; text-decoration: none; }
-    .card { border: 1px solid #ddd; border-radius: 14px; padding: 16px; margin: 14px 0; }
-    .muted { color: #555; }
+    :root{
+      --bg:#ffffff;
+      --text:#111;
+      --muted:#5a5a5a;
+      --border:#e7e7e7;
+      --card:#fff;
+      --link:#0b57d0;
+      --chip:#f4f6fb;
+      --shadow: 0 14px 35px rgba(0,0,0,0.06);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.55;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 42px 18px 56px;
+    }
+
+    a{ color: var(--link); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .muted{ color: var(--muted); }
+
+    /* HERO */
+    .hero{
+      display:flex;
+      gap: 18px;
+      align-items:center;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .avatar{
+      width: 92px;
+      height: 92px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      background: #f2f2f2;
+      flex: 0 0 auto;
+    }
+
+    h1{
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .subtitle{
+      margin: 6px 0 0;
+      font-size: 15.5px;
+    }
+
+    .btnrow{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-block;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      text-decoration:none;
+    }
+    .btn:hover{ text-decoration:none; border-color:#d2d2d2; }
+
+    .btn.primary{
+      background: var(--link);
+      border-color: var(--link);
+      color:#fff;
+    }
+    .btn.primary:hover{ filter: brightness(0.95); }
+
+    .chips{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .chip{
+      display:inline-block;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    /* SECTIONS */
+    h2{
+      margin: 26px 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .card{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--card);
+    }
+
+    .card b{
+      display:block;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .meta{
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .links{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      margin-top: 8px;
+    }
+
+    .pill{
+      display:inline-block;
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      text-decoration:none;
+      background:#fff;
+    }
+
+    .footer{
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 560px){
+      .hero{ align-items:flex-start; }
+      .avatar{ width: 82px; height: 82px; }
+      h1{ font-size: 30px; }
+    }
   </style>
 </head>
+
 <body>
-  <h1>Dawit Yerdea</h1>
-  <p class="muted">Hardware Electrical Engineer • Analog and RF /Quantum Computing Hardware/ Test / PCB/ • Lab Debug</p>
+  <div class="wrap">
 
-  <div class="links">
-    <a href="myResume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
-    <a href="https://github.com/dawityerdea" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.linkedin.com/in/dawit-yerdea/" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="mailto:dawit.yerdea@sjsu.edu">Email</a>
+    <!-- HERO -->
+    <div class="hero">
+      <!-- Put your image here: assets/profile.jpg -->
+      <img class="avatar" src="assets/profile.jpeg" alt="Portrait of Dawit Yerdea" />
+
+
+      <div>
+        <h1>Dawit Yerdea</h1>
+        <p class="subtitle muted">
+          Hardware Electrical Engineer • Analog / RF • Quantum Hardware • Test & Lab Debug • PCB
+        </p>
+
+        <div class="btnrow">
+          <a class="btn primary" href="myResume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+          <a class="btn" href="projects/rfic.html">RFIC Projects</a>
+          <a class="btn" href="projects/3d-transmon-cavity-cqed/">3D Transmon cQED</a>
+          <a class="btn" href="mailto:dawit.yerdea@sjsu.edu">Email</a>
+          <a class="btn" href="https://www.linkedin.com/in/dawit-yerdea/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="https://github.com/dawityerdea" target="_blank" rel="noopener">GitHub</a>
+        </div>
+
+        <div class="chips">
+          <span class="chip">Cadence Virtuoso / SpectreRF</span>
+          <span class="chip">HFSS / Qiskit Metal</span>
+          <span class="chip">S-parameters / NF / Stability</span>
+          <span class="chip">Python (analysis + automation)</span>
+          <span class="chip">VNA / RF Lab</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <h2>Focus</h2>
+    <div class="card">
+      <p class="meta" style="margin:0">
+        I build and verify RF/analog and quantum-hardware systems with a spec-driven workflow: simulation → measurement mindset →
+        clean documentation. I’m especially interested in RFIC front-ends, noise/linearity trade-offs, and EM-driven design
+        for superconducting qubits (cQED).
+      </p>
+    </div>
+
+    <!-- PROJECTS -->
+    <h2>Featured Projects</h2>
+
+    <div class="grid">
+      <div class="card">
+        <b>Cryo Sub-1-dB NF CMOS LNA (CryoLNA)</b>
+        <p class="meta">Cadence/SpectreRF • gain/NF/stability • design notes</p>
+        <div class="links">
+          <a class="pill" href="projects/cryolna.html">View project →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <b>Radio Frequency Integrated Circuit (RFIC) Design</b>
+        <p class="meta">Cadence/SpectreRF • NF, gain, stability • design notes + results</p>
+        <div class="links">
+          <a class="pill" href="projects/rfic.html">View RFIC page →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <b>SLAC Orbit Fitting & Diagnostics</b>
+        <p class="meta">Python • data analysis • instrumentation/diagnostics workflow</p>
+        <div class="links">
+          <a class="pill" href="projects/slac_orbit_fitting.html">View project →</a>
+          <a class="pill" href="https://github.com/dawityerdea/orbit_fit" target="_blank" rel="noopener">Code →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <b>Microwave Filter / TRL / Momentum Validation</b>
+        <p class="meta">ADS/Momentum • layout + EM validation • fabrication documentation</p>
+        <div class="links">
+          <a class="pill" href="projects/microwave.html">View project →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <b>3D Transmon and Cavity cQED</b>
+        <p class="meta">HFSS eigenmode • cavity resonances • E-field maps • Q factor • geometry sensitivity</p>
+        <div class="links">
+          <a class="pill" href="projects/3d-transmon-cavity-cqed/">View project →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>© <span id="y"></span> Dawit Yerdea</div>
+      <div>
+        <a href="mailto:dawit.yerdea@sjsu.edu">dawit.yerdea@sjsu.edu</a>
+        <span class="muted"> • </span>
+        <a href="https://www.linkedin.com/in/dawit-yerdea/" target="_blank" rel="noopener">LinkedIn</a>
+        <span class="muted"> • </span>
+        <a href="https://github.com/dawityerdea" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
   </div>
 
-  <h2>Featured Projects</h2>
-
-  <div class="card">
-    <b>Cryo Sub-1-dB NF CMOS LNA (CryoLNA)</b>
-    <p class="muted">Cadence/SpectreRF •Gain,NF, stability • design note</p>
-    <a href="projects/cryolna.html">View project →</a>
-  </div>
-
-  <div class="card">
-    <b>Radio Frequency Integreted Circuit (RFIC) Design</b>
-    <p class="muted">Cadence/SpectreRF • NF, gain, stability • design notes + results</p>
-    <a href="projects/rfic.html">View project →</a>
-
-  </div>
-
-  <div class="card">
-    <b>SLAC Orbit Fitting & Diagnostics</b>
-    <p class="muted">Python • data analysis • instrumentation/diagnostics workflow</p>
-    <a href="projects/slac_orbit_fitting.html">View project →</a>
-    <a href="projects/slac_orbit_fitting.html">View project →</a>
-    <span class="muted"> • </span>
-    <a href="https://github.com/dawityerdea/orbit_fit" target="_blank" rel="noopener">Code</a>
-
-  </div>
-
-  <div class="card">
-    <b>Microwave Filter / TRL / Momentum Validation</b>
-    <p class="muted">ADS/Momentum • VNA-style plots • layout + validation</p>
-    <a href="projects/microwave.html">View project →</a>
-  </div>
-
-  <div class="card">
-  <b>3D Transmon and Cavity QCED</b>
-  <p class="muted">HFSS Eigenmode • cavity resonances • E-field maps • Q-factor • geometry sensitivity</p>
-  <a href="projects/3d-transmon-cavity-cqed/index.html">View project →</a>
-
-</div>
-
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
