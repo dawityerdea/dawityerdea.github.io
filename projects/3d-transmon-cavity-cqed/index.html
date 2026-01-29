@@ -4,19 +4,33 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>3D Transmon + Cavity cQED | Dawit Yerdea</title>
+
   <style>
     :root{
-      --text:#111; --muted:#555; --border:#e6e6e6; --link:#0b57d0;
+      --text:#111;
+      --muted:#555;
+      --border:#e6e6e6;
+      --link:#0b57d0;
       --radius:16px;
+      --chipbg:#eef2ff;
     }
+
+    *{ box-sizing:border-box; }
+
     body{
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      margin:0; padding:34px 18px; max-width:980px; color:var(--text);
+      margin:0;
+      padding:34px 18px;
+      max-width:980px;
+      color:var(--text);
       line-height:1.55;
     }
+
     a{color:var(--link); text-decoration:none}
     a:hover{text-decoration:underline}
+
     .muted{color:var(--muted)}
+
     .card{
       border:1px solid var(--border);
       border-radius:var(--radius);
@@ -24,6 +38,7 @@
       margin:14px 0;
       background:#fff;
     }
+
     .btns a{
       display:inline-block;
       margin:10px 10px 0 0;
@@ -32,16 +47,35 @@
       border-radius:999px;
       background:#fff;
     }
+
+    .chips{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .chip{
+      display:inline-block;
+      font-size:13px;
+      padding:6px 10px;
+      border-radius:999px;
+      background: var(--chipbg);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
     ul{margin:8px 0 0 18px}
+
     table{border-collapse:collapse; width:100%; margin-top:10px}
     th, td{border-bottom:1px solid var(--border); padding:10px 8px; text-align:left; vertical-align:top}
     th{background:#fafafa}
+
     .grid{
       display:grid;
       grid-template-columns: 2fr 1.2fr;
       gap:16px;
       margin-top:10px;
     }
+
     @media (max-width: 820px){
       .grid{grid-template-columns:1fr}
     }
@@ -51,10 +85,31 @@
 <body>
   <a href="../../index.html">← Back to Home</a>
 
-  <h1>3D Transmon and Cavity cQED (HFSS / Qiskit Metal)</h1>
+  <h1>3D Transmon & Cavity cQED (HFSS / Qiskit Metal)</h1>
   <p class="muted">
-    HFSS eigenmode analysis • field visualization • Q factor extraction • geometry sensitivity (sapphire + JJ placement)
+    Superconducting transmons • Qiskit Metal primitives & parameterization • HFSS eigenmode • E-field maps • Q factor • geometry sensitivity
   </p>
+
+  <div class="chips">
+    <span class="chip">Under development</span>
+    <span class="chip">QDK-oriented</span>
+    <span class="chip">Parameterized primitives</span>
+  </div>
+
+  <p class="muted" style="margin-top:10px">
+    I’m expanding this work into a reusable, parameterized component library (qubits, routes/control lines, coupling structures) and documenting
+    a “virtual process” mindset aligned with QDK-style workflows.
+  </p>
+
+  <div class="card">
+    <b>Internship match (Superconducting + Qiskit Metal + QDK direction)</b>
+    <ul>
+      <li><b>Superconducting transmons / cQED basics:</b> qubit + EM environment intuition (modes, field overlap, Q trends).</li>
+      <li><b>Qiskit Metal primitives:</b> building layouts from parameterized components and generating geometry from design variables.</li>
+      <li><b>Device-set mindset (QDK-oriented):</b> organizing “representative devices” (qubits, control/routing, couplers) with consistent parameters and documentation.</li>
+      <li><b>Virtuoso exposure:</b> experience using Cadence Virtuoso for schematic/simulation workflows; interested in translating parameterized devices into a Virtuoso-based QDK flow.</li>
+    </ul>
+  </div>
 
   <div class="card">
     <b>Project overview</b>
@@ -76,12 +131,13 @@
   <div class="card">
     <b>What I did (portfolio highlights)</b>
     <ul>
-      <li>Built the baseline geometry in Qiskit Metal and exported the model to HFSS for 3D EM simulation.</li>
+      <li>Built <b>parameterized geometry</b> in Qiskit Metal (component-driven layout) and exported to HFSS for 3D EM simulation.</li>
       <li>Set up HFSS eigenmode simulation (multiple modes, convergence tuning, pass control).</li>
       <li>Used E-field plots (top + side views) to interpret where energy concentrates (cavity vs qubit region).</li>
       <li>Compared eigenmode frequencies between baseline geometry (Project 1) and modified geometry (Project 2).</li>
       <li>Extracted Q from EigenQ results and interpreted high-Q vs low-Q behavior across dominant modes.</li>
       <li>Documented practical troubleshooting (convergence sensitivity to max passes) and clear next steps for nonlinear analysis.</li>
+      <li>Documented key parameters and naming conventions to support reusable device generation (early QDK-style library structure).</li>
     </ul>
   </div>
 
