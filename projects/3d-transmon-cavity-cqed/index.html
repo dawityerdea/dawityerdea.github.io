@@ -85,40 +85,39 @@
 <body>
   <a href="../../index.html">← Back to Home</a>
 
-  <h1>3D Transmon & Cavity cQED (HFSS / Qiskit Metal)</h1>
+  <h1>3D Transmon & Cavity cQED (Qiskit Metal)</h1>
   <p class="muted">
-    Superconducting transmons • Qiskit Metal primitives & parameterization • HFSS eigenmode • E-field maps • Q factor • geometry sensitivity
+    Superconducting transmons • Qiskit Metal primitives • parameterized geometry • layout iteration • documentation (in progress)
   </p>
 
   <div class="chips">
-    <span class="chip">Under development</span>
-    <span class="chip">QDK-oriented</span>
-    <span class="chip">Parameterized primitives</span>
+    <span class="chip">In progress</span>
+    <span class="chip">Qiskit Metal</span>
+    <span class="chip">Parameterized geometry</span>
   </div>
 
   <p class="muted" style="margin-top:10px">
-    I’m expanding this work into a reusable, parameterized component library (qubits, routes/control lines, coupling structures) and documenting
-    a “virtual process” mindset aligned with QDK-style workflows.
+    This project is currently in progress. My focus is building and refining parameterized transmon/cavity layouts in Qiskit Metal,
+    learning the primitives and how they are generated from design variables, and documenting the workflow as I go.
   </p>
 
   <div class="card">
-    <b>Superconducting + Qiskit Metal + QDK direction</b>
+    <b>Relevant skills (Superconducting + Qiskit Metal)</b>
     <ul>
-      <li><b>Superconducting transmons / cQED basics:</b> qubit + EM environment intuition (modes, field overlap, Q trends).</li>
-      <li><b>Qiskit Metal primitives:</b> building layouts from parameterized components and generating geometry from design variables.</li>
-      <li><b>Device-set mindset (QDK-oriented):</b> organizing “representative devices” (qubits, control/routing, couplers) with consistent parameters and documentation.</li>
-      <li><b>Virtuoso exposure:</b> experience using Cadence Virtuoso for schematic/simulation workflows; interested in translating parameterized devices into a Virtuoso-based QDK flow.</li>
+      <li><b>Superconducting / cQED basics:</b> transmon + EM environment intuition (where fields concentrate, how geometry affects behavior).</li>
+      <li><b>Qiskit Metal primitives:</b> assembling layouts from components and tuning geometry through parameters.</li>
+      <li><b>Reproducible workflow:</b> keeping clear notes on geometry choices, parameters, and results so designs can be repeated and modified.</li>
+      <li><b>Next steps (planned):</b> add more device variants and organize reusable building blocks as the project grows.</li>
     </ul>
   </div>
 
   <div class="card">
     <b>Project overview</b>
     <p class="muted" style="margin-top:8px">
-      This is a two-part workflow for modeling a transmon-style Josephson element and its electromagnetic environment
-      using Qiskit Metal and HFSS. <b>Project 1</b> establishes the baseline setup (transmon + resonator/cavity workflow)
-      and validates eigenmode simulation and field visualization. <b>Project 2</b> builds directly on Project 1 by moving the
-      sapphire and Josephson-junction location inside the cavity, then comparing how resonant frequencies, E-field
-      localization, and Q change with geometry.
+      This is a two-part workflow aimed at modeling a transmon-style Josephson element and its electromagnetic environment.
+      <b>Project 1</b> establishes a baseline setup (transmon + cavity/resonator workflow) and documents the design flow.
+      <b>Project 2</b> builds on Project 1 by moving the sapphire and Josephson-junction location inside the cavity and comparing how
+      geometry changes affect the structure and results.
     </p>
 
     <div class="btns">
@@ -131,67 +130,24 @@
   <div class="card">
     <b>What I did (portfolio highlights)</b>
     <ul>
-      <li>Built <b>parameterized geometry</b> in Qiskit Metal (component-driven layout) and exported to HFSS for 3D EM simulation.</li>
-      <li>Set up HFSS eigenmode simulation (multiple modes, convergence tuning, pass control).</li>
-      <li>Used E-field plots (top + side views) to interpret where energy concentrates (cavity vs qubit region).</li>
-      <li>Compared eigenmode frequencies between baseline geometry (Project 1) and modified geometry (Project 2).</li>
-      <li>Extracted Q from EigenQ results and interpreted high-Q vs low-Q behavior across dominant modes.</li>
-      <li>Documented practical troubleshooting (convergence sensitivity to max passes) and clear next steps for nonlinear analysis.</li>
-      <li>Documented key parameters and naming conventions to support reusable device generation (early QDK-style library structure).</li>
+      <li>Built parameterized transmon/cavity geometry in Qiskit Metal (component-driven layout).</li>
+      <li>Iterated on geometry parameters to understand how changes affect the structure and design intent.</li>
+      <li>Documented the workflow step-by-step so the design can be reproduced and extended later.</li>
+      <li>Captured key screenshots/plots in the reports to communicate the setup and observations clearly.</li>
     </ul>
   </div>
 
   <div class="card">
-    <b>Key results (from Project 2)</b>
+    <b>Status / next steps</b>
     <p class="muted" style="margin-top:8px">
-      After moving the sapphire and Josephson junction location, the two dominant eigenmodes show distinct behavior:
-      Mode 1 appears high-Q (more “storage/qubit-like”), while Mode 2 is much lower-Q (more “lossy/readout-like”),
-      consistent with the EigenQ results in the Project 2 report.
+      Current status: I’m actively building out the Qiskit Metal portion and improving documentation. Next steps are to add more design variants,
+      organize the components cleanly, and expand the set of results shown on this page.
     </p>
-
-    <div class="grid">
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Metric</th>
-              <th>Mode 1</th>
-              <th>Mode 2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Resonant frequency (example pass)</td>
-              <td>~6.2977&nbsp;GHz</td>
-              <td>~7.3358&nbsp;GHz</td>
-            </tr>
-            <tr>
-              <td>Q factor (example pass)</td>
-              <td>~8.4×10<sup>7</sup></td>
-              <td>~9.84×10<sup>3</sup></td>
-            </tr>
-            <tr>
-              <td>Mode spacing</td>
-              <td colspan="2">Δf ≈ 1.038&nbsp;GHz (reference spacing between the two dominant modes)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div>
-        <b>Notes / next steps</b>
-        <p class="muted" style="margin-top:8px">
-          Extracting a numeric cross-Kerr (χ) or qubit-cavity coupling (g) generally requires nonlinear modeling
-          (e.g., pyEPR / Josephson nonlinearity). The current portfolio focus is eigenmodes, E-field overlap intuition,
-          and sensitivity of f/Q to geometry changes.
-        </p>
-        <ul>
-          <li>Run additional geometry sweeps (sapphire position, JJ location) and plot f and Q trends.</li>
-          <li>Export to a nonlinear workflow (pyEPR) to estimate participation and χ.</li>
-          <li>Connect simulation outcomes to a target readout/storage mode design goal.</li>
-        </ul>
-      </div>
-    </div>
+    <ul>
+      <li>Add additional design variants (different transmon styles / parameter ranges).</li>
+      <li>Organize reusable geometry blocks for faster iteration (as a personal library over time).</li>
+      <li>Update this page with more figures, parameter tables, and clearer “what changed / what happened” notes.</li>
+    </ul>
   </div>
 
 </body>
