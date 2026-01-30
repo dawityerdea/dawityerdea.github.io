@@ -14,23 +14,15 @@
       --radius:16px;
       --chipbg:#eef2ff;
     }
-
     *{ box-sizing:border-box; }
-
     body{
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      margin:0;
-      padding:34px 18px;
-      max-width:980px;
-      color:var(--text);
-      line-height:1.55;
+      margin:0; padding:34px 18px; max-width:980px;
+      color:var(--text); line-height:1.55;
     }
-
     a{color:var(--link); text-decoration:none}
     a:hover{text-decoration:underline}
-
     .muted{color:var(--muted)}
-
     .card{
       border:1px solid var(--border);
       border-radius:var(--radius);
@@ -38,7 +30,6 @@
       margin:14px 0;
       background:#fff;
     }
-
     .btns a{
       display:inline-block;
       margin:10px 10px 0 0;
@@ -47,9 +38,8 @@
       border-radius:999px;
       background:#fff;
     }
-
     .chips{
-      margin-top:12px;
+      margin-top:10px;
       display:flex;
       flex-wrap:wrap;
       gap:8px;
@@ -62,91 +52,57 @@
       background: var(--chipbg);
       border: 1px solid rgba(0,0,0,0.04);
     }
-
     ul{margin:8px 0 0 18px}
-
-    table{border-collapse:collapse; width:100%; margin-top:10px}
-    th, td{border-bottom:1px solid var(--border); padding:10px 8px; text-align:left; vertical-align:top}
-    th{background:#fafafa}
-
-    .grid{
-      display:grid;
-      grid-template-columns: 2fr 1.2fr;
-      gap:16px;
-      margin-top:10px;
-    }
-
-    @media (max-width: 820px){
-      .grid{grid-template-columns:1fr}
-    }
   </style>
 </head>
 
 <body>
   <a href="../../index.html">← Back to Home</a>
 
-  <h1>3D Transmon & Cavity cQED (Qiskit Metal)</h1>
+  <h1>3D Transmon & Cavity cQED (Qiskit Metal + HFSS)</h1>
   <p class="muted">
-    Superconducting transmons • Qiskit Metal primitives • parameterized geometry • layout iteration • documentation (in progress)
+    Qiskit Metal layout • HFSS 3D simulation • results documented in two short reports
   </p>
 
   <div class="chips">
     <span class="chip">In progress</span>
     <span class="chip">Qiskit Metal</span>
-    <span class="chip">Parameterized geometry</span>
-  </div>
-
-  <p class="muted" style="margin-top:10px">
-    This project is currently in progress. My focus is building and refining parameterized transmon/cavity layouts in Qiskit Metal,
-    learning the primitives and how they are generated from design variables, and documenting the workflow as I go.
-  </p>
-
-  <div class="card">
-    <b>Relevant skills (Superconducting + Qiskit Metal)</b>
-    <ul>
-      <li><b>Superconducting / cQED basics:</b> transmon + EM environment intuition (where fields concentrate, how geometry affects behavior).</li>
-      <li><b>Qiskit Metal primitives:</b> assembling layouts from components and tuning geometry through parameters.</li>
-      <li><b>Reproducible workflow:</b> keeping clear notes on geometry choices, parameters, and results so designs can be repeated and modified.</li>
-      <li><b>Next steps (planned):</b> add more device variants and organize reusable building blocks as the project grows.</li>
-    </ul>
+    <span class="chip">HFSS</span>
   </div>
 
   <div class="card">
     <b>Project overview</b>
     <p class="muted" style="margin-top:8px">
-      This is a two-part workflow aimed at modeling a transmon-style Josephson element and its electromagnetic environment.
-      <b>Project 1</b> establishes a baseline setup (transmon + cavity/resonator workflow) and documents the design flow.
-      <b>Project 2</b> builds on Project 1 by moving the sapphire and Josephson-junction location inside the cavity and comparing how
-      geometry changes affect the structure and results.
+      This work is split into two small reports. Both use the same general workflow:
+      build a transmon/cavity design in Qiskit Metal, then run 3D simulations in HFSS to study how the design behaves.
     </p>
+
+    <ul class="muted">
+      <li><b>Project 1 (PDF 1):</b> Baseline setup. Shows the initial design, how it is set up in HFSS, and the first simulation results.</li>
+      <li><b>Project 2 (PDF 2):</b> Design change study. Moves the sapphire / junction location and compares how the results change versus Project 1.</li>
+    </ul>
 
     <div class="btns">
       <!-- IMPORTANT: these file names must match exactly what you upload into this SAME folder -->
-      <a href="cqed_project1.pdf" target="_blank" rel="noopener">View Project 1 report (PDF) →</a>
-      <a href="cqed_project2.pdf" target="_blank" rel="noopener">View Project 2 report (PDF) →</a>
+      <a href="cqed_project1.pdf" target="_blank" rel="noopener">View Project 1 (baseline) PDF →</a>
+      <a href="cqed_project2.pdf" target="_blank" rel="noopener">View Project 2 (comparison) PDF →</a>
     </div>
   </div>
 
   <div class="card">
-    <b>What I did</b>
-    <ul>
-      <li>Built parameterized transmon/cavity geometry in Qiskit Metal (component-driven layout).</li>
-      <li>Iterated on geometry parameters to understand how changes affect the structure and design intent.</li>
-      <li>Documented the workflow step-by-step so the design can be reproduced and extended later.</li>
-      <li>Captured key screenshots/plots in the reports to communicate the setup and observations clearly.</li>
+    <b>What I did (simple)</b>
+    <ul class="muted">
+      <li>Built the transmon + cavity layout in Qiskit Metal using adjustable settings.</li>
+      <li>Imported the design into HFSS and ran eigenmode simulations.</li>
+      <li>Reviewed the simulation outputs (frequencies, field plots, and Q factor) and summarized them in the two PDFs.</li>
     </ul>
   </div>
 
   <div class="card">
     <b>Status / next steps</b>
-    <p class="muted" style="margin-top:8px">
-      Current status: I’m actively building out the Qiskit Metal portion and improving documentation. Next steps are to add more design variants,
-      organize the components cleanly, and expand the set of results shown on this page.
-    </p>
-    <ul>
-      <li>Add additional design variants (different transmon styles / parameter ranges).</li>
-      <li>Organize reusable geometry blocks for faster iteration (as a personal library over time).</li>
-      <li>Update this page with more figures, parameter tables, and clearer “what changed / what happened” notes.</li>
+    <ul class="muted">
+      <li>Add more design variations (different placements and sizes) and compare results.</li>
+      <li>Improve figures and add a short “what changed and  what happened” summary on this page.</li>
     </ul>
   </div>
 
