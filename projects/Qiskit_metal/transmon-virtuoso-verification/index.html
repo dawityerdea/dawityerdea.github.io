@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transmon Layout → Virtuoso Verification | Dawit Yerdea</title>
+
+  <style>
+    :root{
+      --text:#111; --muted:#555; --border:#e6e6e6; --link:#0b57d0; --radius:16px;
+      --bg:#f3f4f6; --card:#fff;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      margin:0; padding:34px 18px; max-width:980px;
+      background: var(--bg); color: var(--text); line-height:1.55;
+    }
+    a{color:var(--link); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .muted{color:var(--muted)}
+    .card{
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:16px;
+      margin:14px 0;
+      background:var(--card);
+    }
+    .btns a{
+      display:inline-block;
+      margin:10px 10px 0 0;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#fff;
+    }
+    ul{margin:8px 0 0 18px}
+    .chips{margin-top:10px; display:flex; flex-wrap:wrap; gap:8px}
+    .chip{font-size:13px; padding:6px 10px; border-radius:999px; background:#eef2ff; border:1px solid rgba(0,0,0,0.04)}
+  </style>
+</head>
+
+<body>
+  <a href="../">← Back to Qiskit Metal Hub</a>
+  <span class="muted"> • </span>
+  <a href="../../../index.html">Home</a>
+
+  <h1 style="margin-top:14px">Transmon Layout → Cadence Virtuoso Verification</h1>
+  <p class="muted">
+    Qiskit Metal layout generation • GDS export • Virtuoso import • labels/pins • geometry checks • verification (documented)
+  </p>
+
+  <div class="chips">
+    <span class="chip">Report</span>
+    <span class="chip">Qiskit Metal</span>
+    <span class="chip">Cadence Virtuoso</span>
+  </div>
+
+  <div class="card">
+    <b>Summary</b>
+    <p class="muted" style="margin-top:8px">
+      Built a transmon layout in Qiskit Metal, exported the design to GDS, imported it into Cadence Virtuoso, and documented
+      the layout checks and verification workflow. This page links the report + notebook PDF.
+    </p>
+
+    <div class="btns">
+      <!-- These PDFs are stored in the parent folder: projects/Qiskit_metal/ -->
+      <a href="../Quibits_cadence_report.pdf" target="_blank" rel="noopener">View report (PDF) →</a>
+      <a href="../qiskit.ipynb_JupyterLab.pdf" target="_blank" rel="noopener">View notebook (PDF) →</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <b>What I did</b>
+    <ul class="muted">
+      <li>Generated a transmon-based layout using Qiskit Metal (parameterized components).</li>
+      <li>Exported the layout to GDS for downstream CAD tools.</li>
+      <li>Imported the design into Cadence Virtuoso and confirmed hierarchy/geometry visually.</li>
+      <li>Documented labels/pins and performed basic checks to validate the layout.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <b>Next steps</b>
+    <ul class="muted">
+      <li>Add more device variants and routing examples (as I learn more Qiskit Metal components).</li>
+      <li>Document a repeatable checklist for layout import + verification.</li>
+      <li>Publish a short “setup” section (versions, environment notes) for reproducibility.</li>
+    </ul>
+  </div>
+</body>
+</html>
