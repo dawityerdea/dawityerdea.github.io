@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Qiskit Metal Projects | Dawit Yerdea</title>
+
+  <style>
+    :root{
+      --bg:#f3f4f6; --card:#ffffff; --text:#111; --muted:#555; --border:#e6e6e6;
+      --link:#0b57d0; --shadow:0 10px 30px rgba(0,0,0,0.08); --radius:18px; --maxw:980px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text);line-height:1.55}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:34px 18px 44px}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    h1{margin:0;font-size:30px;letter-spacing:-0.02em}
+    .muted{color:var(--muted)}
+    .card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,0.05);margin:14px 0}
+    .meta{margin:6px 0 0;color:var(--muted);font-size:14px}
+    .links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+    .pill{display:inline-block;padding:10px 12px;border:1px solid var(--border);border-radius:999px;background:#fff}
+    .chips{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+    .chip{display:inline-block;font-size:13px;padding:6px 10px;border-radius:999px;background:#eef2ff;border:1px solid rgba(0,0,0,0.04)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a href="../../index.html">← Back to Home</a>
+
+    <h1>Qiskit Metal Projects</h1>
+    <p class="muted" style="margin-top:10px">
+      A growing set of superconducting-qubit layout projects built with Qiskit Metal. This page is a hub linking to individual project pages.
+    </p>
+
+    <div class="card">
+      <b>Transmon Layout → Cadence Virtuoso Verification</b>
+      <p class="meta">
+        Qiskit Metal primitives • GDS export • Virtuoso import • pin/label workflow • geometry checks • verification (report)
+      </p>
+      <div class="chips">
+        <span class="chip">Completed report</span>
+        <span class="chip">Qiskit Metal</span>
+        <span class="chip">Cadence Virtuoso</span>
+      </div>
+      <div class="links">
+        <a class="pill" href="transmon-virtuoso-verification/">View project →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <b>3D Transmon & Cavity cQED</b>
+      <p class="meta">
+        Qiskit Metal primitives • parameterized geometry • documentation (in progress)
+      </p>
+      <div class="chips">
+        <span class="chip">In progress</span>
+        <span class="chip">Qiskit Metal</span>
+        <span class="chip">cQED</span>
+      </div>
+      <div class="links">
+        <a class="pill" href="../3d-transmon-cavity-cqed/">View project →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <b>Notes</b>
+      <p class="meta" style="margin-top:8px">
+        I share my own work products (design notes, screenshots, and reports). Course handouts/instructor-provided materials are not posted.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
